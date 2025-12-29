@@ -1,0 +1,20 @@
+# SISORC ULTIMATE - Dependências do Projeto
+# Instalação: pip install -r requirements.txt
+
+# Core Data Processing
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# Interface Gráfica Moderna
+customtkinter>=5.2.0
+pillow>=10.0.0
+
+# Build (Compilação para .exe)
+pyinstaller>=6.0.0
+
+# Opcional: Type Checking
+# mypy>=1.0.0
+
+# Opcional: Code Quality
+# pylint>=3.0.0
+# black>=23.0.0

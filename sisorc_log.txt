@@ -1,0 +1,346 @@
+[10:39:41] INFO: 🚀 SISORC ULTIMATE inicializado com sucesso
+[10:40:37] INFO: Arquivo sintetico selecionado: Cópia de_ Rev.03_ INSTALAÇÃO D - Orçamento Sintético (1).xlsx
+[10:40:51] INFO: Arquivo modelo selecionado: MODELO SUP.xlsx
+[10:49:55] INFO: 🚀 SISORC ULTIMATE inicializado com sucesso
+[10:50:11] INFO: Arquivo sintetico selecionado: Cópia de_ Rev.03_ INSTALAÇÃO D - Orçamento Sintético (1).xlsx
+[10:50:17] INFO: Arquivo modelo selecionado: MODELO SUP.xlsx
+[10:57:13] INFO: Iniciando sanitização: Cópia de_ Rev.03_ INSTALAÇÃO D - Orçamento Sintético (1).xlsx
+[10:57:13] ERROR: Erro no Sanitizer: Unable to read workbook: could not read worksheets from Cópia de_ Rev.03_ INSTALAÇÃO D - Orçamento Sintético (1).xlsx.
+This is most probably because the workbook source files contain some invalid XML.
+Please see the exception for more details.
+[11:00:24] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:00:24] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:04:31] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:04:31] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:07:39] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:07:40] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:13:05] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:13:05] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:16:05] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:16:05] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:22:37] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:22:37] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:49:50] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:49:51] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[12:04:59] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[12:05:01] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[09:14:06] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[09:14:07] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[09:23:27] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[09:23:27] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:20:21] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[10:20:22] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:20:45] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[10:20:45] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:20:46] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[10:20:46] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:20:50] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[10:20:50] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:21:35] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[10:21:35] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:40:08] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[10:40:08] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:40:08] INFO: Inserindo 45 novas linhas para caber o orçamento...
+[10:40:12] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[10:40:12] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:41:26] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[10:41:26] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[10:41:26] INFO: Inserindo 45 novas linhas para caber o orçamento...
+[11:04:35] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[11:04:35] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:06:38] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[11:06:38] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:06:38] INFO: Guardando rodapé na memória...
+[11:06:44] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[11:06:44] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:06:44] INFO: Guardando rodapé na memória...
+[11:06:55] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[11:06:55] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:06:55] INFO: Guardando rodapé na memória...
+[11:07:07] INFO: Iniciando sanitização: REV 03_ READEQUAÇÃO_ SALA DE I - Orçamento Sintético.xlsx
+[11:07:07] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:07:07] INFO: Guardando rodapé na memória...
+[11:25:20] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:25:21] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:25:31] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:25:31] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:30:11] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:30:11] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:30:12] INFO: Lidas 8 linhas de dados brutos.
+[11:30:37] INFO: Iniciando sanitização: ATUALIZAÇÃO 01_ PPGQ - Pós Gra - Orçamento Sintético.xlsx
+[11:30:37] ERROR: Erro no Sanitizer: Unable to read workbook: could not read worksheets from C:/Users/ESTAGIÁRIOS/Downloads/ATUALIZAÇÃO 01_ PPGQ - Pós Gra - Orçamento Sintético.xlsx.
+This is most probably because the workbook source files contain some invalid XML.
+Please see the exception for more details.
+[11:45:16] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:45:17] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:45:24] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:45:24] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:46:02] INFO: Iniciando sanitização: DADOS_LIMPOS.xlsx
+[11:46:02] INFO: Sanitização OK. Cabeçalho detectado na linha 4
+[11:46:02] INFO: Iniciando Modo Trator...
+[11:46:02] INFO: Lidas 8 linhas brutas.
+[08:24:01] INFO: ✓ Configurações carregadas
+[09:09:16] INFO: Teste de INFO
+[09:09:16] WARNING: Teste de WARNING
+[09:09:16] ERROR: Teste de ERROR
+[09:11:47] INFO: ========================================
+[09:11:47] INFO:   SISORC ULTIMATE v13.0 INICIADO
+[09:11:47] INFO: ========================================
+[09:12:11] INFO: ========================================
+[09:12:11] INFO:   CARREGANDO PREVIEW
+[09:12:11] INFO: ========================================
+[09:12:11] INFO: ============================================================
+[09:12:12] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[09:12:12] INFO: ============================================================
+[09:12:12] INFO: Tentativa 1 de carregar arquivo...
+[09:12:13] INFO: ✓ Sucesso na tentativa 1
+[09:12:13] INFO: ✓ Arquivo carregado com sucesso
+[09:12:13] INFO: ✓ 15 mesclagens removidas
+[09:12:14] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767010333.xlsx
+[09:12:14] INFO: ✓ Cabeçalho detectado na linha 4
+[09:12:14] INFO: ✓ Sanitização concluída com sucesso
+[09:12:14] INFO: ============================================================
+[09:12:14] INFO: Colunas: Item='ITEM', Desc='DESCRIÇÃO'
+[09:12:14] INFO: ✓ 8 linhas carregadas
+[09:12:14] INFO: Limpando arquivos temporários...
+[09:12:14] INFO: ✓ Limpeza concluída
+[09:12:46] INFO: ========================================
+[09:12:46] INFO:   INICIANDO PROCESSAMENTO
+[09:12:46] INFO: ========================================
+[09:12:46] INFO: ============================================================
+[09:12:46] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[09:12:46] INFO: ============================================================
+[09:12:46] INFO: Tentativa 1 de carregar arquivo...
+[09:12:46] INFO: ✓ Sucesso na tentativa 1
+[09:12:46] INFO: ✓ Arquivo carregado com sucesso
+[09:12:46] INFO: ✓ 15 mesclagens removidas
+[09:12:46] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767010366.xlsx
+[09:12:47] INFO: ✓ Cabeçalho detectado na linha 4
+[09:12:47] INFO: ✓ Sanitização concluída com sucesso
+[09:12:47] INFO: ============================================================
+[09:12:47] INFO: ============================================================
+[09:12:47] INFO: INICIANDO PROCESSAMENTO
+[09:12:47] INFO: ============================================================
+[09:12:47] INFO: Etapa 1/5: Localizando cabeçalho...
+[09:12:47] INFO: ✓ Cabeçalho encontrado na linha 4
+[09:12:47] INFO: Etapa 2/5: Carregando dados do sintético...
+[09:12:47] INFO: ✓ 8 linhas carregadas
+[09:12:47] INFO: Etapa 3/5: Mapeando colunas...
+[09:12:47] INFO:   A ← ITEM
+[09:12:47] INFO:   B ← CÓDIGO
+[09:12:47] INFO:   C ← NÃO ENCONTRADA
+[09:12:47] INFO:   D ← DESCRIÇÃO
+[09:12:47] INFO:   E ← UND
+[09:12:47] INFO:   F ← QUANT.
+[09:12:47] INFO:   G ← VALOR UNIT
+[09:12:47] INFO: ✓ Colunas mapeadas: A, B, D, E, F, G
+[09:12:47] INFO: Etapa 4/5: Preparando arquivo de saída...
+[09:12:47] INFO: ⚠️ Erro ao preencher cabeçalho: 'MergedCell' object attribute 'value' is read-only
+[09:12:47] INFO: ✓ Arquivo preparado: ORC_claudemelhora_20251229_091247.xlsx
+[09:12:47] INFO: Etapa 5/5: Escrevendo dados...
+[09:12:48] INFO:   Escrevendo linha 1/8 (Nível: N1)
+[09:12:48] INFO:   Escrevendo linha 2/8 (Nível: ITEM)
+[09:12:48] INFO: ❌ Erro ao escrever dados: 'MergedCell' object attribute 'value' is read-only
+[09:12:48] INFO: Limpando arquivos temporários...
+[09:12:48] INFO: ✓ Limpeza concluída
+[09:12:48] ERROR: Falha: ❌ Erro ao escrever dados no arquivo
+[09:35:39] INFO: ========================================
+[09:35:39] INFO:   SISORC ULTIMATE v13.0 INICIADO
+[09:35:39] INFO: ========================================
+[09:40:15] INFO: ========================================
+[09:40:15] INFO:   CARREGANDO PREVIEW
+[09:40:15] INFO: ========================================
+[09:40:15] INFO: ============================================================
+[09:40:15] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[09:40:15] INFO: ============================================================
+[09:40:15] INFO: Tentativa 1 de carregar arquivo...
+[09:40:16] INFO: ✓ Sucesso na tentativa 1
+[09:40:16] INFO: ✓ Arquivo carregado com sucesso
+[09:40:16] INFO: ✓ 15 mesclagens removidas
+[09:40:17] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767012016.xlsx
+[09:40:18] INFO: ✓ Cabeçalho detectado na linha 4
+[09:40:18] INFO: ✓ Sanitização concluída com sucesso
+[09:40:18] INFO: ============================================================
+[09:40:18] INFO: Colunas: Item='ITEM', Desc='DESCRIÇÃO'
+[09:40:18] INFO: ✓ 8 linhas carregadas
+[09:40:18] INFO: Limpando arquivos temporários...
+[09:40:18] INFO: ✓ Limpeza concluída
+[09:40:46] INFO: ========================================
+[09:40:46] INFO:   INICIANDO PROCESSAMENTO
+[09:40:46] INFO: ========================================
+[09:40:46] INFO: ============================================================
+[09:40:46] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[09:40:46] INFO: ============================================================
+[09:40:46] INFO: Tentativa 1 de carregar arquivo...
+[09:40:46] INFO: ✓ Sucesso na tentativa 1
+[09:40:46] INFO: ✓ Arquivo carregado com sucesso
+[09:40:46] INFO: ✓ 15 mesclagens removidas
+[09:40:46] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767012046.xlsx
+[09:40:46] INFO: ✓ Cabeçalho detectado na linha 4
+[09:40:46] INFO: ✓ Sanitização concluída com sucesso
+[09:40:46] INFO: ============================================================
+[09:40:46] INFO: ============================================================
+[09:40:46] INFO: INICIANDO PROCESSAMENTO
+[09:40:46] INFO: ============================================================
+[09:40:46] INFO: Etapa 1/5: Localizando cabeçalho...
+[09:40:47] INFO: ✓ Cabeçalho encontrado na linha 4
+[09:40:47] INFO: Etapa 2/5: Carregando dados do sintético...
+[09:40:47] INFO: ✓ 8 linhas carregadas
+[09:40:47] INFO: Etapa 3/5: Mapeando colunas...
+[09:40:47] INFO:   A ← ITEM
+[09:40:47] INFO:   B ← CÓDIGO
+[09:40:47] INFO:   C ← NÃO ENCONTRADA
+[09:40:47] INFO:   D ← DESCRIÇÃO
+[09:40:47] INFO:   E ← UND
+[09:40:47] INFO:   F ← QUANT.
+[09:40:47] INFO:   G ← VALOR UNIT
+[09:40:47] INFO: ✓ Colunas mapeadas: A, B, D, E, F, G
+[09:40:47] INFO: Etapa 4/5: Preparando arquivo de saída...
+[09:40:49] INFO: ⚠️ Erro ao preencher cabeçalho: 'MergedCell' object attribute 'value' is read-only
+[09:40:49] INFO: ✓ Arquivo preparado: ORC_teste03_20251229_094047.xlsx
+[09:40:49] INFO: Etapa 5/5: Escrevendo dados...
+[09:40:49] INFO:   Escrevendo linha 1/8 (Nível: N1)
+[09:40:49] INFO:   Escrevendo linha 2/8 (Nível: ITEM)
+[09:40:49] INFO: ❌ Erro ao escrever dados: 'MergedCell' object attribute 'value' is read-only
+[09:40:49] INFO: Limpando arquivos temporários...
+[09:40:49] INFO: ✓ Limpeza concluída
+[09:40:49] ERROR: Falha: ❌ Erro ao escrever dados no arquivo
+[10:57:58] INFO: ========================================
+[10:59:06] INFO: ========================================
+[10:59:06] INFO:   SISORC ULTIMATE v13.0 INICIADO
+[10:59:06] INFO: ========================================
+[10:59:16] INFO: ========================================
+[10:59:16] INFO:   CARREGANDO PREVIEW
+[10:59:16] INFO: ========================================
+[10:59:16] INFO: ============================================================
+[10:59:16] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[10:59:16] INFO: ============================================================
+[10:59:16] INFO: Tentativa 1 de carregar arquivo...
+[10:59:18] INFO: ✓ Sucesso na tentativa 1
+[10:59:18] INFO: ✓ Arquivo carregado com sucesso
+[10:59:18] INFO: ✓ 15 mesclagens removidas
+[10:59:20] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767016758.xlsx
+[10:59:23] INFO: ✓ Cabeçalho detectado na linha 4
+[10:59:23] INFO: ✓ Sanitização concluída com sucesso
+[10:59:23] INFO: ============================================================
+[10:59:23] INFO: Colunas: Item='ITEM', Desc='DESCRIÇÃO'
+[10:59:24] INFO: ✓ 8 linhas carregadas
+[10:59:24] INFO: Limpando arquivos temporários...
+[10:59:24] INFO: ✓ Limpeza concluída
+[11:00:03] INFO: ========================================
+[11:00:03] INFO:   INICIANDO PROCESSAMENTO
+[11:00:03] INFO: ========================================
+[11:00:03] INFO: ============================================================
+[11:00:03] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[11:00:03] INFO: ============================================================
+[11:00:03] INFO: Tentativa 1 de carregar arquivo...
+[11:00:03] INFO: ✓ Sucesso na tentativa 1
+[11:00:03] INFO: ✓ Arquivo carregado com sucesso
+[11:00:03] INFO: ✓ 15 mesclagens removidas
+[11:00:03] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767016803.xlsx
+[11:00:03] INFO: ✓ Cabeçalho detectado na linha 4
+[11:00:03] INFO: ✓ Sanitização concluída com sucesso
+[11:00:03] INFO: ============================================================
+[11:00:03] INFO: ============================================================
+[11:00:03] INFO: INICIANDO PROCESSAMENTO
+[11:00:03] INFO: ============================================================
+[11:00:03] INFO: Etapa 1/5: Localizando cabeçalho...
+[11:00:03] INFO: ✓ Cabeçalho encontrado na linha 4
+[11:00:03] INFO: Etapa 2/5: Carregando dados do sintético...
+[11:00:03] INFO: ✓ 8 linhas carregadas
+[11:00:03] INFO: Etapa 3/5: Mapeando colunas...
+[11:00:03] INFO:   A ← ITEM
+[11:00:03] INFO:   B ← CÓDIGO
+[11:00:03] INFO:   C ← NÃO ENCONTRADA
+[11:00:04] INFO:   D ← DESCRIÇÃO
+[11:00:04] INFO:   E ← UND
+[11:00:04] INFO:   F ← QUANT.
+[11:00:04] INFO:   G ← VALOR UNIT
+[11:00:04] INFO: ✓ Colunas mapeadas: A, B, D, E, F, G
+[11:00:04] INFO: Etapa 4/5: Preparando arquivo de saída...
+[11:00:05] INFO: ⚠️ Mesclagem removida no cabeçalho para evitar erro: A7:H7
+[11:00:05] INFO: ⚠️ Mesclagem removida no cabeçalho para evitar erro: A8:H8
+[11:00:05] INFO: ✓ Arquivo preparado: ORC_teste04_20251229_110004.xlsx
+[11:00:05] INFO: Etapa 5/5: Escrevendo dados...
+[11:00:05] INFO:   Escrevendo linha 1/8 (Nível: N1)
+[11:00:05] INFO:   Escrevendo linha 2/8 (Nível: ITEM)
+[11:00:05] INFO:   Escrevendo linha 3/8 (Nível: ITEM)
+[11:00:05] INFO:   Escrevendo linha 4/8 (Nível: ITEM)
+[11:00:05] INFO:   Escrevendo linha 5/8 (Nível: ITEM)
+[11:00:05] INFO:   Escrevendo linha 6/8 (Nível: ITEM)
+[11:00:05] INFO:   Escrevendo linha 7/8 (Nível: N1)
+[11:00:05] INFO:   Escrevendo linha 8/8 (Nível: ITEM)
+[11:00:06] INFO: Copiando rodapé...
+[11:00:06] INFO: ⚠️ Erro ao copiar rodapé: 'MergedCell' object attribute 'value' is read-only
+[11:00:06] INFO: ⚠️ Erro ao aplicar Total Geral: 'MergedCell' object attribute 'value' is read-only
+[11:00:06] INFO: ✓ Escrita concluída. Total de linhas: 8
+[11:00:08] INFO: ✓ Arquivo salvo com sucesso!
+[11:00:08] INFO: ============================================================
+[11:00:09] INFO: ✅ PROCESSAMENTO CONCLUÍDO COM SUCESSO
+[11:00:09] INFO: ============================================================
+[11:00:09] INFO: Limpando arquivos temporários...
+[11:00:09] INFO: ✓ Limpeza concluída
+[11:00:10] INFO: ========================================
+[11:00:10] INFO:   ✅ PROCESSAMENTO CONCLUÍDO
+[11:00:10] INFO: ========================================
+[11:26:03] INFO: ========================================
+[11:26:03] INFO:   SISORC ULTIMATE v13.0 INICIADO
+[11:26:03] INFO: ========================================
+[11:26:10] INFO: ========================================
+[11:26:10] INFO:   CARREGANDO PREVIEW
+[11:26:10] INFO: ========================================
+[11:26:10] INFO: ============================================================
+[11:26:10] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[11:26:10] INFO: ============================================================
+[11:26:10] INFO: Tentativa 1 de carregar arquivo...
+[11:26:10] INFO: ✓ Sucesso na tentativa 1
+[11:26:10] INFO: ✓ Arquivo carregado com sucesso
+[11:26:10] INFO: ✓ 15 mesclagens removidas
+[11:26:10] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767018370.xlsx
+[11:26:10] INFO: ✓ Cabeçalho detectado na linha 4
+[11:26:10] INFO: ✓ Sanitização concluída com sucesso
+[11:26:10] INFO: ============================================================
+[11:26:10] INFO: Colunas: Item='ITEM', Desc='DESCRIÇÃO'
+[11:26:10] INFO: ✓ 8 linhas carregadas
+[11:26:10] INFO: Limpando arquivos temporários...
+[11:26:10] INFO: ✓ Limpeza concluída
+[11:26:55] INFO: ========================================
+[11:26:55] INFO:   INICIANDO PROCESSAMENTO
+[11:26:55] INFO: ========================================
+[11:26:55] INFO: ============================================================
+[11:26:55] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[11:26:55] INFO: ============================================================
+[11:26:55] INFO: Tentativa 1 de carregar arquivo...
+[11:26:55] INFO: ✓ Sucesso na tentativa 1
+[11:26:55] INFO: ✓ Arquivo carregado com sucesso
+[11:26:55] INFO: ✓ 15 mesclagens removidas
+[11:26:56] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767018415.xlsx
+[11:26:56] INFO: ✓ Cabeçalho detectado na linha 4
+[11:26:56] INFO: ✓ Sanitização concluída com sucesso
+[11:26:56] INFO: ============================================================
+[11:26:56] INFO: ============================================================
+[11:26:56] INFO: INICIANDO PROCESSAMENTO (MÉTODO INSERT)
+[11:26:56] INFO: ============================================================
+[11:26:56] INFO: Etapa 1/4: Localizando e carregando dados...
+[11:26:56] INFO: ✓ 8 linhas carregadas do sintético
+[11:26:56] INFO: Etapa 2/4: Mapeando colunas...
+[11:26:56] INFO:   Coluna A mapeada de: ITEM
+[11:26:56] INFO:   Coluna B mapeada de: CÓDIGO
+[11:26:56] INFO:   Coluna C mapeada de: BANCO
+[11:26:56] INFO:   Coluna D mapeada de: DESCRIÇÃO
+[11:26:56] INFO:   Coluna E mapeada de: UND
+[11:26:56] INFO:   Coluna F mapeada de: QUANT.
+[11:26:56] INFO:   Coluna G mapeada de: VALOR UNIT
+[11:26:56] INFO: Etapa 3/4: Preparando arquivo de saída...
+[11:26:56] INFO: Etapa 4/4: Inserindo linhas e aplicando fórmulas...
+[11:26:56] INFO:   Inserindo 8 linhas a partir da linha 25...
+[11:26:56] INFO: ⚠️ Linha de Total Geral não encontrada pelo texto. Tentando aplicar na primeira linha livre do rodapé coluna H.
+[11:26:56] INFO: ✓ Total Geral aplicado na linha 34
+[11:26:57] INFO: ============================================================
+[11:26:57] INFO: ✅ PROCESSAMENTO CONCLUÍDO COM SUCESSO
+[11:26:57] INFO: ============================================================
+[11:26:57] INFO: Limpando arquivos temporários...
+[11:26:57] INFO: ✓ Limpeza concluída
+[11:26:57] INFO: ========================================
+[11:26:57] INFO:   ✅ PROCESSAMENTO CONCLUÍDO
+[11:26:57] INFO: ========================================

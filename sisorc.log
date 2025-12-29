@@ -1,0 +1,64 @@
+[08:24:21] INFO: ============================================================
+[08:24:21] INFO: SISORC ULTIMATE v12.0 Iniciado
+[08:24:21] INFO: ============================================================
+[08:25:34] INFO: Carregando preview: linha 5, qtd 8
+[08:25:34] INFO: ============================================================
+[08:25:34] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[08:25:34] INFO: ============================================================
+[08:25:34] INFO: Tentativa 1 de carregar arquivo...
+[08:25:37] INFO: ✓ Sucesso na tentativa 1
+[08:25:37] INFO: ✓ Arquivo carregado com sucesso
+[08:25:37] INFO: ✓ 15 mesclagens removidas
+[08:25:37] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767007537.xlsx
+[08:25:38] INFO: ✓ Cabeçalho detectado na linha 4
+[08:25:38] INFO: ✓ Sanitização concluída com sucesso
+[08:25:38] INFO: ============================================================
+[08:25:38] INFO: Colunas detectadas - Item: ITEM, Descrição: DESCRIÇÃO
+[08:25:39] INFO: ✓ 8 linhas carregadas na tabela
+[08:25:39] INFO: Limpando arquivos temporários...
+[08:25:39] INFO: ✓ Limpeza concluída
+[08:25:39] INFO: ✓ Preview carregado com sucesso: 8 linhas
+[08:26:16] INFO: ========================================
+[08:26:16] INFO:   INICIANDO PROCESSAMENTO
+[08:26:16] INFO: ========================================
+[08:26:16] INFO: Obra: 5fjhydrfjyjd
+[08:26:16] INFO: Itens: 8
+[08:26:16] INFO: ============================================================
+[08:26:16] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[08:26:16] INFO: ============================================================
+[08:26:16] INFO: Tentativa 1 de carregar arquivo...
+[08:26:16] INFO: ✓ Sucesso na tentativa 1
+[08:26:16] INFO: ✓ Arquivo carregado com sucesso
+[08:26:16] INFO: ✓ 15 mesclagens removidas
+[08:26:16] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767007576.xlsx
+[08:26:16] INFO: ✓ Cabeçalho detectado na linha 4
+[08:26:16] INFO: ✓ Sanitização concluída com sucesso
+[08:26:16] INFO: ============================================================
+[08:26:16] INFO: Iniciando Modo Clássico (Busca Automática)...
+[08:26:16] INFO: Cabeçalho encontrado na linha 4
+[08:26:17] INFO: Processando 8 itens...
+[08:26:17] INFO: Limpando arquivos temporários...
+[08:26:17] INFO: ✓ Limpeza concluída
+[08:26:17] ERROR: Processamento falhou: Erro Técnico: 'MergedCell' object attribute 'value' is read-only
+[08:26:22] INFO: ========================================
+[08:26:22] INFO:   INICIANDO PROCESSAMENTO
+[08:26:22] INFO: ========================================
+[08:26:22] INFO: Obra: 5fjhydrfjyjd
+[08:26:22] INFO: Itens: 8
+[08:26:22] INFO: ============================================================
+[08:26:22] INFO: SANITIZAÇÃO: DADOS_LIMPOS.xlsx
+[08:26:22] INFO: ============================================================
+[08:26:22] INFO: Tentativa 1 de carregar arquivo...
+[08:26:22] INFO: ✓ Sucesso na tentativa 1
+[08:26:22] INFO: ✓ Arquivo carregado com sucesso
+[08:26:22] INFO: ✓ 15 mesclagens removidas
+[08:26:22] INFO: ✓ Arquivo limpo salvo: temp_sisorc_DADOS_LIMPOS_1767007582.xlsx
+[08:26:22] INFO: ✓ Cabeçalho detectado na linha 4
+[08:26:22] INFO: ✓ Sanitização concluída com sucesso
+[08:26:22] INFO: ============================================================
+[08:26:22] INFO: Iniciando Modo Clássico (Busca Automática)...
+[08:26:22] INFO: Cabeçalho encontrado na linha 4
+[08:26:22] INFO: Processando 8 itens...
+[08:26:22] INFO: Limpando arquivos temporários...
+[08:26:22] INFO: ✓ Limpeza concluída
+[08:26:22] ERROR: Processamento falhou: Erro Técnico: 'MergedCell' object attribute 'value' is read-only
