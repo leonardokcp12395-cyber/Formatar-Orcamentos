@@ -1,0 +1,6 @@
+[16:41:05] INFO: ========================================
+[16:41:05] INFO:   INICIANDO ENGINE DE ORÇAMENTO (ENHANCED)
+[16:41:05] INFO: ========================================
+[16:41:05] INFO: Intervalo de dados: Linhas 25 a 34
+[16:41:05] INFO: Cabeçalho encontrado na linha 23
+[16:41:05] INFO: Mapa de colunas: {'item': 6, 'desc': 3, 'unid': 4, 'quant': 5, 'unit': -1, 'cod': 1}
