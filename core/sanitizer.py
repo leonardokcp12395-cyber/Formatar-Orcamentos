@@ -1,131 +1,73 @@
 import pandas as pd
 import re
-from logger import setup_logger
+import os
+from utils.logger import Logger
+import unicodedata
 
-logger = setup_logger()
+class ExcelSanitizer:
+    def __init__(self, config):
+        self.config = config
 
-class DataSanitizer:
-    def sanitize(self, input_path):
-        logger.info(f"Iniciando sanitização de: {input_path}")
-        
+    def sanitizar_arquivo(self, input_path):
+        """
+        Sanitiza o arquivo Excel para leitura segura.
+        Procura dinamicamente pelo cabeçalho da tabela.
+        Retorna (sucesso, caminho_arquivo, linha_cabecalho).
+        """
+        Logger.info(f"Iniciando sanitização avançada de: {input_path}")
+
         try:
-            # 1. Extração de Metadados (Cabeçalho)
-            # Lê as primeiras 25 linhas sem cabeçalho para achar informações
-            # header=None garante que leiamos tudo como dados brutos
-            df_raw = pd.read_excel(input_path, header=None, nrows=25)
-            header_info = self._extract_header_info(df_raw)
-            logger.info(f"Dados de cabeçalho encontrados: {header_info}")
+            if not os.path.exists(input_path):
+                return False, "Arquivo não encontrado", 0
 
-            # 2. Localização e Extração da Tabela de Itens
-            df_full = pd.read_excel(input_path, header=None)
-            
-            # Procura a linha que contém "Item", "Código" e "Descrição"
-            header_row_index = None
-            for idx, row in df_full.iterrows():
-                # Converte linha para string e uppercase para busca insensível a maiúsculas
-                row_str = row.astype(str).str.upper().values
-                if 'ITEM' in str(row_str) and 'DESCRIÇÃO' in str(row_str):
-                    header_row_index = idx
-                    break
-            
-            if header_row_index is None:
-                # Fallback: Tenta achar linha 4 ou 5 se não achar por texto
-                logger.warning("Cabeçalho não encontrado por texto. Tentando linha 4 padrão.")
-                header_row_index = 4 # Ajuste conforme seu arquivo padrão se necessário
+            # Ler um pedaço maior do arquivo para encontrar o cabeçalho
+            # Arquivos do governo/sistemas podem ter cabeçalhos grandes
+            df_search = pd.read_excel(input_path, header=None, nrows=100)
 
-            # Recarrega o dataframe usando a linha correta como cabeçalho
-            df_items = pd.read_excel(input_path, header=header_row_index)
-            
-            # Limpeza das colunas (remove colunas vazias e normaliza nomes)
-            df_items = self._clean_table_columns(df_items)
-            
-            # Filtra apenas linhas onde a coluna ITEM parece um número (1, 1.1, 2, etc)
-            # Isso remove linhas de rodapé ou lixo
-            df_items = df_items[df_items['ITEM'].astype(str).str.match(r'^\d+(\.\d+)*$')]
+            header_row_idx = -1
+            best_score = 0
 
-            logger.info(f"Tabela de itens extraída com {len(df_items)} linhas.")
-            
-            return df_items, header_info
+            # Palavras-chave obrigatórias e opcionais para identificar a linha de títulos
+            keywords = {
+                'ITEM': 2,       # Peso 2
+                'DESCRI': 2,     # Peso 2 (Descrição, Discriminação)
+                'QUANT': 1,      # Peso 1
+                'UNIT': 1,       # Peso 1 (Unitário)
+                'TOTAL': 1,      # Peso 1
+                'COD': 1         # Peso 1 (Código)
+            }
+
+            for idx, row in df_search.iterrows():
+                row_text = " ".join([str(val).upper() for val in row.values])
+                row_text = self._normalize_text(row_text)
+
+                score = 0
+                for kw, weight in keywords.items():
+                    if kw in row_text:
+                        score += weight
+
+                # Exige pelo menos ITEM e DESCRIÇÃO para considerar válido
+                if 'ITEM' in row_text and ('DESCRI' in row_text or 'DISCRIMINA' in row_text):
+                     if score > best_score:
+                        best_score = score
+                        header_row_idx = idx
+
+            if header_row_idx != -1:
+                Logger.info(f"Cabeçalho detectado na linha {header_row_idx + 1} (Score: {best_score})")
+                return True, input_path, header_row_idx
+            else:
+                Logger.warning("Cabeçalho não detectado automaticamente. Usando linha 0 como fallback.")
+                return True, input_path, 0
 
         except Exception as e:
-            logger.error(f"Erro na sanitização: {str(e)}")
-            raise e
+            Logger.error(f"Erro na sanitização: {str(e)}")
+            return False, str(e), 0
 
-    def _extract_header_info(self, df):
-        """Varre o dataframe cru em busca de palavras-chave"""
-        info = {
-            'setor': '',
-            'servidor': '',
-            'telefone': '',
-            'email': '',
-            'os_num': '',
-            'data_emissao': ''
-        }
+    def _normalize_text(self, text):
+        """Remove acentos e caracteres especiais para comparação"""
+        return ''.join(c for c in unicodedata.normalize('NFD', text)
+                      if unicodedata.category(c) != 'Mn')
 
-        # Converte tudo para string para facilitar busca
-        df = df.fillna('')
-        
-        # Função auxiliar para buscar valor na célula vizinha à direita
-        def get_neighbor(row_idx, col_idx):
-            try:
-                # Tenta pegar coluna +1 (vizinho direito)
-                val = df.iloc[row_idx, col_idx+1]
-                if val and str(val).strip():
-                    return str(val).strip()
-                # Se não, tenta coluna +2 (caso tenha uma celula vazia no meio)
-                val2 = df.iloc[row_idx, col_idx+2]
-                if val2 and str(val2).strip():
-                    return str(val2).strip()
-            except:
-                pass
-            return ''
-
-        for r_idx, row in df.iterrows():
-            for c_idx, cell in enumerate(row):
-                val_str = str(cell).upper().strip()
-                
-                # Busca por palavras chave e pega o vizinho
-                if 'SETOR:' in val_str:
-                    clean_val = val_str.replace('SETOR:', '').strip()
-                    info['setor'] = clean_val if clean_val else get_neighbor(r_idx, c_idx)
-                
-                if 'SERVIDOR:' in val_str:
-                    clean_val = val_str.replace('SERVIDOR:', '').strip()
-                    info['servidor'] = clean_val if clean_val else get_neighbor(r_idx, c_idx)
-                
-                if 'TELEFONE:' in val_str:
-                    clean_val = val_str.replace('TELEFONE:', '').strip()
-                    info['telefone'] = clean_val if clean_val else get_neighbor(r_idx, c_idx)
-
-                if 'EMAIL:' in val_str:
-                    clean_val = val_str.replace('EMAIL:', '').strip()
-                    info['email'] = clean_val if clean_val else get_neighbor(r_idx, c_idx)
-
-        return info
-
-    def _clean_table_columns(self, df):
-        """Padroniza nomes das colunas"""
-        # Remove colunas totalmente vazias (Unnamed)
-        df = df.dropna(how='all', axis=1)
-        
-        # Mapa de renomeação para garantir padrão
-        cols_map = {}
-        for col in df.columns:
-            c_upper = str(col).upper().strip()
-            if 'ITEM' in c_upper: cols_map[col] = 'ITEM'
-            elif 'CÓDIGO' in c_upper or 'CODIGO' in c_upper: cols_map[col] = 'CÓDIGO'
-            elif 'BANCO' in c_upper: cols_map[col] = 'BANCO'
-            elif 'DESCRIÇÃO' in c_upper: cols_map[col] = 'DESCRIÇÃO'
-            elif 'UND' in c_upper or 'UNID' in c_upper: cols_map[col] = 'UND'
-            elif 'QUANT' in c_upper: cols_map[col] = 'QUANT.'
-            elif 'UNIT' in c_upper: cols_map[col] = 'VALOR UNIT'
-        
-        df = df.rename(columns=cols_map)
-        
-        # Garante que as colunas essenciais existam
-        required = ['ITEM', 'CÓDIGO', 'BANCO', 'DESCRIÇÃO', 'UND', 'QUANT.', 'VALOR UNIT']
-        for req in required:
-            if req not in df.columns:
-                df[req] = '' # Cria vazia se não existir
-                
-        return df[required]
+    def limpar_arquivos_temp(self):
+        """Remove arquivos temporários gerados"""
+        pass
