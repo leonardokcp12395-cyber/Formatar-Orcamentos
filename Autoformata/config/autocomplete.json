@@ -1,0 +1,51 @@
+{
+    "campus": [
+        "BELÉM",
+        "TUCURUÍ",
+        "CASTANHAL",
+        "ALTAMIRA",
+        "BREVES"
+    ],
+    "setor": [
+        "CEPS",
+        "REITORIA",
+        "CAPELA ECUMÊNICA",
+        "PROAD",
+        "MIRANTE DO RIO",
+        "CEBN",
+        "CASA DO ESTUDANTE",
+        "AUDITÁRIO SETORIAL 1 E 2",
+        "RESTAURANTE UNIVERSITÁRIO"
+    ],
+    "servidor": [
+        "testservidor",
+        "TESTSERVIDOR"
+    ],
+    "elaborador": [
+        "ROMULO DAVI",
+        "RÔMULO LOPES",
+        "ARNALDO AGUIAR",
+        "ALLAN CARDOSO",
+        "MONALISA CHAVES",
+        "MATHEUS KENJI",
+        "LUCAS ROSA",
+        "PAULO SÉRGIO",
+        "ROBERTO SALGADO",
+        "MIKE PEREIRA"
+    ],
+    "estagiario": [
+        "LEONARDO KAUA"
+    ],
+    "fiscal": [
+        "ROMULO DAVI",
+        "RÔMULO LOPES",
+        "ARNALDO AGUIAR",
+        "ALLAN CARDOSO",
+        "MONALISA CHAVES",
+        "MATHEUS KENJI",
+        "LUCAS ROSA",
+        "PAULO SÉRGIO",
+        "ROBERTO SALGADO",
+        "MIKE PEREIRA"
+    ]
+}
