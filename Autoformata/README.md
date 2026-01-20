@@ -1,4 +1,4 @@
-# SISORC ULTIMATE v3.0 - Documentação Técnica
+# SISORC ULTIMATE v3.0 - Documentação Técnica (desatualizado e antigo)
 
 ## 📋 Visão Geral
 
