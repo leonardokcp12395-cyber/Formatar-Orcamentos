@@ -32,7 +32,8 @@ class SmartParser:
             "orcafascio": r"(?:ORÇAFASCIO|OF|CÓDIGO)\s*[:]?\s*(\d+)",
             "empenho": r"(?:EMPENHO|NOTA DE EMPENHO)\s*[:]?\s*(.*)",
             "contrato": r"(?:CONTRATO|ATA)\s*[:]?\s*(.*)",
-            "num_orcamento": r"(?:ORDEM DE SERVIÇO|OS)(?:\s*(?:N[º°]|NUMERO))?\s*[:\-]?\s*(\d+)"
+            "num_orcamento": r"(?:ORDEM DE SERVIÇO|OS)(?:\s*(?:N[º°]|NUMERO))?\s*[:\-]?\s*(\d+)",
+            "valor_simulado": r"(?:VALOR|ORÇAMENTO|ESTIMATIVA|TOTAL)\s*[:]?\s*(?:R\$)?\s*([\d\.,]+)"
         }
 
         # 3. Extração via Regex

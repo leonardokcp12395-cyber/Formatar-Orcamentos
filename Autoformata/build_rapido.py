@@ -23,6 +23,7 @@ comando = [
     "--hidden-import=customtkinter",
     "--hidden-import=tkinterdnd2",
     "--hidden-import=openpyxl",
+    "--hidden-import=rapidfuzz",
     
     "--name=SISORC_MASTER",
     "main.py"

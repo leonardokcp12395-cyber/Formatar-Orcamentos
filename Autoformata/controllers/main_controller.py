@@ -61,6 +61,8 @@ class MainController:
                         msg['msg'], msg['duration'], msg['info_data'], msg['raw_data'], msg['pdf_msg'])
                 elif action == 'gerar_orcamento_erro':
                     self.view._on_gerar_orcamento_erro(msg['msg'])
+                elif action == 'gerar_orcamento_progresso':
+                    self.view._on_gerar_orcamento_progresso(msg['percent'])
         except queue.Empty:
             pass
         finally:
@@ -68,6 +70,16 @@ class MainController:
 
     def _get_session_path(self):
         return get_app_dir() / "config" / "last_session.json"
+
+    def limpar_dados_sessao(self):
+        self.sintetico_original_path = ""
+        self.sintetico_limpo_path = ""
+        try:
+            sess_path = self._get_session_path()
+            if sess_path.exists():
+                os.remove(sess_path)
+        except Exception as e:
+            self.logger.error(f"Erro ao limpar sessão: {e}")
 
     def salvar_sessao_atual(self, data):
         try:
@@ -220,7 +232,11 @@ class MainController:
     def _run_orcamento(self, d, m, p, modelo_path):
         start_time = time.time()
         eng = OrcamentoEngine({})
-        ok, msg, extra_info = eng.gerar_excel_final(d, modelo_path, m, p)
+
+        def progress_callback(pct):
+            self.ui_queue.put({'action': 'gerar_orcamento_progresso', 'percent': pct})
+
+        ok, msg, extra_info = eng.gerar_excel_final(d, modelo_path, m, p, progress_callback)
 
         pdf_msg = ""
         if ok and p.get("gerar_pdf", 0) == 1:
