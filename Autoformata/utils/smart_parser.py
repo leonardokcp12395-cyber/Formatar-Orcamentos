@@ -1,6 +1,7 @@
 import re
 from rapidfuzz import process, fuzz
 
+
 class SmartParser:
     """
     V2: Parser com Normalização de Dados.
@@ -37,7 +38,8 @@ class SmartParser:
         # 3. Extração via Regex
         for line in lines:
             line = line.strip()
-            if not line: continue
+            if not line:
+                continue
 
             for key, pattern in patterns.items():
                 match = re.search(pattern, line, re.IGNORECASE)
@@ -46,16 +48,16 @@ class SmartParser:
                     val = re.sub(r"^(DO |DA |DE |O |A )", "", val)
 
                     if key == "contrato" and "descricao_header" in data:
-                         data["descricao_header"] += f" - {val}"
+                        data["descricao_header"] += f" - {val}"
                     elif key == "contrato":
-                         data["_contrato_temp"] = val
+                        data["_contrato_temp"] = val
                     else:
                         if len(val) > 1:
                             data[key] = val
 
         # 4. Pós-processamento de lógica
         if "_contrato_temp" in data and "descricao_header" in data:
-             data["descricao_header"] += f" - {data['_contrato_temp']}"
+            data["descricao_header"] += f" - {data['_contrato_temp']}"
 
         # 5. NORMALIZAÇÃO INTELIGENTE
         if autocomplete_mgr:
@@ -81,12 +83,14 @@ class SmartParser:
                 valor_extraido = data[field_parser]
                 opcoes_validas = mgr.get_list(field_db)
 
-                if not opcoes_validas: continue
+                if not opcoes_validas:
+                    continue
 
                 if valor_extraido in opcoes_validas:
                     continue
 
-                match = process.extractOne(valor_extraido, opcoes_validas, scorer=fuzz.ratio)
+                match = process.extractOne(
+                    valor_extraido, opcoes_validas, scorer=fuzz.ratio)
 
                 if match:
                     sugestao, score, _ = match
