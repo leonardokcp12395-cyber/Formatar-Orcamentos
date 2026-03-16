@@ -1,33 +1,12 @@
 import customtkinter as ctk
 from tkinter import filedialog, messagebox, simpledialog
-# Importações para Drag & Drop e Caminhos
 from tkinterdnd2 import TkinterDnD, DND_FILES 
-import pandas as pd
-import threading
 import os
-import shutil  # CORREÇÃO: Importação crucial para copiar o arquivo com segurança!
-import json
-import time
-from datetime import datetime
 from pathlib import Path
 from tkinter import ttk
 import tkinter as tk
 
-import win32com.client
-import pythoncom
-
-# Importações do Core
-from core.excel_handler import OrcamentoEngine
-from core.database import DatabaseManager
-from core.paths import get_app_dir
-
-# Importações de Utils
-from utils.logger import Logger
-from utils.config_manager import ConfigManager
-from utils.autocomplete_manager import AutocompleteManager
-from utils.smart_parser import SmartParser
-from utils.pdf_exporter import PDFExporter
-from utils.template_manager import TemplateManager
+from controllers.main_controller import MainController
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -313,26 +292,13 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self._on_drop)
 
-        self.logger = Logger("SISORC")
-        self.config_manager = ConfigManager()
-        self.dados_config = self.config_manager.load_profiles()
-        self.autocomplete = AutocompleteManager()
-        self.template_manager = TemplateManager()
-        
-        db_path = get_app_dir() / 'sisorc_history.db'
-        db_config = {'database': {'nome_arquivo': str(db_path)}}
-        self.db_manager = DatabaseManager(db_config)
-        
-        # Variáveis seguras para a máquina de lavar de planilhas
-        self.sintetico_original_path = ""
-        self.sintetico_limpo_path = ""
-        
-        self.modelo_path = ""
         self.combos_db_refs = {} 
         self.inputs_refs = {} 
         
+        self.controller = MainController(self)
+
         self._setup_ui()
-        self.logger.adicionar_callback(self._log_callback)
+        self.controller.logger.adicionar_callback(self._log_callback)
         
         self.carregar_ui_perfil("PADRAO")
         self.atualizar_listas_visuais()
@@ -350,10 +316,9 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
             messagebox.showwarning("Arquivo Inválido", "Apenas arquivos Excel são aceitos!")
             return
 
-        self.sintetico_original_path = path
         self.lbl_sint.configure(text=os.path.basename(path), text_color="lime")
-        self.logger.info(f"📂 Arquivo carregado via Drag & Drop: {os.path.basename(path)}")
-        self._iniciar_leitura_segura()
+        self.controller.logger.info(f"📂 Arquivo carregado via Drag & Drop: {os.path.basename(path)}")
+        self._iniciar_leitura_segura(path)
 
     def _setup_ui(self):
         self.grid_columnconfigure(0, weight=1)
@@ -574,10 +539,10 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         return w
 
     def _abrir_gerenciador_modelos(self):
-        TemplateEditor(self, self.template_manager, self._atualizar_combo_modelos)
+        TemplateEditor(self, self.controller.template_manager, self._atualizar_combo_modelos)
 
     def _atualizar_combo_modelos(self):
-        nomes = self.template_manager.get_template_names()
+        nomes = self.controller.template_manager.get_template_names()
         if nomes:
             self.combo_modelos.configure(values=nomes)
             atual = self.combo_modelos.get()
@@ -589,51 +554,40 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
             self.combo_modelos.set("(Nenhum modelo)")
 
     def _ao_trocar_modelo(self, nome):
-        path = self.template_manager.get_template_path(nome)
+        path = self.controller.template_manager.get_template_path(nome)
         if path and os.path.exists(path):
-            self.modelo_path = path
-            self.logger.info(f"Modelo definido: {nome}")
+            self.controller.modelo_path = path
+            self.controller.logger.info(f"Modelo definido: {nome}")
 
     def _alternar_tema(self):
         if self.switch_tema.get() == 1: ctk.set_appearance_mode("Dark")
         else: ctk.set_appearance_mode("Light")
-
-    def _get_session_path(self):
-        return get_app_dir() / "config" / "last_session.json"
 
     def _salvar_sessao_atual(self):
         data = {}
         for key, widget in self.inputs_refs.items():
             try: data[key] = widget.get()
             except: pass
-        try:
-            sess_path = self._get_session_path()
-            sess_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(sess_path, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False)
-        except Exception as e: print(f"Erro ao salvar sessão: {e}")
+        self.controller.salvar_sessao_atual(data)
 
     def _carregar_ultima_sessao(self):
-        path = self._get_session_path()
-        if not path.exists(): return
-        try:
-            with open(path, 'r', encoding='utf-8') as f: data = json.load(f)
-            for key, valor in data.items():
-                if key in self.inputs_refs and valor:
-                    widget = self.inputs_refs[key]
-                    if isinstance(widget, ctk.CTkEntry):
-                        widget.delete(0, 'end')
-                        widget.insert(0, valor)
-                    elif isinstance(widget, ctk.CTkComboBox):
-                        widget.set(valor)
-            self.logger.info("Estado da última sessão restaurado.")
-        except Exception as e: print(f"Erro ao carregar sessão: {e}")
+        data = self.controller.carregar_ultima_sessao()
+        if not data: return
+        for key, valor in data.items():
+            if key in self.inputs_refs and valor:
+                widget = self.inputs_refs[key]
+                if isinstance(widget, ctk.CTkEntry):
+                    widget.delete(0, 'end')
+                    widget.insert(0, valor)
+                elif isinstance(widget, ctk.CTkComboBox):
+                    widget.set(valor)
+        self.controller.logger.info("Estado da última sessão restaurado.")
 
     def extrair_dados_texto(self):
         texto = self.txt_import.get("0.0", "end").strip()
         if not texto: return messagebox.showwarning("Vazio", "Cole o texto do WhatsApp primeiro!")
         
-        dados = SmartParser.parse_whatsapp_text(texto, self.autocomplete)
+        dados = self.controller.extrair_dados_texto(texto)
         
         mapa = {
             "campus": self.cbo_campus, "setor": self.cbo_setor,
@@ -660,7 +614,7 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
              self.ent_nome_arquivo.insert(0, nome_seguro)
 
         self.txt_import.delete("0.0", "end")
-        self.logger.info(f"Importação Inteligente V2: {count} campos extraídos e normalizados!")
+        self.controller.logger.info(f"Importação Inteligente V2: {count} campos extraídos e normalizados!")
         messagebox.showinfo("Sucesso", f"{count} dados foram extraídos!")
 
     def _calcular_prazo_auto(self, event=None):
@@ -675,107 +629,55 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
             else: prazo = "A DEFINIR (ACORDO)"
             self.ent_prazo.delete(0, 'end')
             self.ent_prazo.insert(0, prazo)
-            self.logger.info(f"Prazo calculado automaticamente para R$ {valor:,.2f}: {prazo}")
+            self.controller.logger.info(f"Prazo calculado automaticamente para R$ {valor:,.2f}: {prazo}")
         except: pass 
     
     def atualizar_listas_visuais(self):
         for db_key, widget in self.combos_db_refs.items():
-            lista = self.autocomplete.get_list(db_key)
+            lista = self.controller.autocomplete.get_list(db_key)
             if lista:
                 widget.configure(values=lista)
             else:
                 widget.configure(values=["(Digite um novo...)"])
 
     def abrir_editor_db(self):
-        DatabaseEditor(self, self.autocomplete, self.atualizar_listas_visuais)
+        DatabaseEditor(self, self.controller.autocomplete, self.atualizar_listas_visuais)
 
     def sel_sintetico(self):
         p = filedialog.askopenfilename(filetypes=[("Excel", "*.xlsx *.xls *.xlsm")])
         if p:
-            self.sintetico_original_path = p
             self.lbl_sint.configure(text=Path(p).name, text_color="lime")
-            self.logger.info(f"📂 Arquivo selecionado manualmente: {os.path.basename(p)}")
-            self._iniciar_leitura_segura()
+            self.controller.logger.info(f"📂 Arquivo selecionado manualmente: {os.path.basename(p)}")
+            self._iniciar_leitura_segura(p)
 
-    # ==========================================================
-    # MÁQUINA DE LAVAR DE PLANILHAS (Win32COM)
-    # ==========================================================
-    def _iniciar_leitura_segura(self):
-        """Orquestra a limpeza do arquivo SIPAC/SEI antes de tentar ler com Pandas"""
+    def _iniciar_leitura_segura(self, path):
         self.configure(cursor="watch")
         self.lbl_status.configure(text="Limpando corrupções do arquivo SIPAC/SEI...", text_color="orange")
-        self.update()
         
-        try:
-            ok, path_limpo = self._limpar_planilha_sipac(self.sintetico_original_path)
-            if ok:
-                self.sintetico_limpo_path = path_limpo
-                self.lbl_status.configure(text="Arquivo pronto e limpo!", text_color="gray")
-                self.ler_colunas()
-                self.carregar_preview()
-            else:
-                messagebox.showerror("Erro Crítico", f"Falha ao limpar o arquivo Excel:\n{path_limpo}")
-                self.lbl_status.configure(text="Erro ao limpar arquivo.", text_color="red")
-        finally:
-            self.configure(cursor="")
-
-    def _limpar_planilha_sipac(self, caminho_original):
-        """Abre o ficheiro no próprio Excel invisível e guarda uma cópia limpa e sem erros"""
+        self.progress.pack(side="bottom", padx=10, pady=(0, 5), fill="x")
+        self.progress.start()
         
-        temp_dir = get_app_dir() / "Output"
-        temp_dir.mkdir(exist_ok=True)
-        
-        # 1. FAZ UMA CÓPIA BRUTA PRIMEIRO (Tira o bloqueio do Windows)
-        caminho_copia = str(temp_dir / "temp_original_desbloqueado.xlsx")
-        try:
-            shutil.copy2(caminho_original, caminho_copia)
-        except Exception as e:
-            return False, f"Falha ao tirar bloqueio de segurança: {e}"
+        self.controller.iniciar_leitura_segura(path)
 
-        caminho_limpo = str(temp_dir / "temp_sintetico_limpo.xlsx")
-        if os.path.exists(caminho_limpo):
-            try: os.remove(caminho_limpo)
-            except: pass
+    def _on_limpar_planilha_sucesso(self, path_limpo):
+        self.progress.stop()
+        self.progress.pack_forget()
+        self.configure(cursor="")
+        self.lbl_status.configure(text="Arquivo pronto e limpo!", text_color="gray")
+        self.ler_colunas()
+        self.carregar_preview()
 
-        excel = None
-        wb = None
-        try:
-            pythoncom.CoInitialize()
-            excel = win32com.client.DispatchEx("Excel.Application")
-            excel.Visible = False
-            excel.DisplayAlerts = False
-            
-            # 2. Caminho Absoluto rigoroso para o Windows não se perder nas barras
-            caminho_abs = os.path.abspath(caminho_copia)
-            
-            # 3. Abre em modo somente leitura e sem atualizar links (evita pop-ups que travam o script)
-            wb = excel.Workbooks.Open(caminho_abs, UpdateLinks=False, ReadOnly=True)
-            
-            # 4. Salva como XLSX nativo limpo (FileFormat=51)
-            wb.SaveAs(os.path.abspath(caminho_limpo), FileFormat=51) 
-            
-            wb.Close(False)
-            excel.Quit()
-            return True, caminho_limpo
-        except Exception as e:
-            if wb:
-                try: wb.Close(False)
-                except: pass
-            if excel:
-                try: excel.Quit()
-                except: pass
-            return False, f"Erro COM do Windows: {str(e)}"
-        finally:
-            try: pythoncom.CoUninitialize()
-            except: pass
+    def _on_limpar_planilha_erro(self, msg):
+        self.progress.stop()
+        self.progress.pack_forget()
+        self.configure(cursor="")
+        messagebox.showerror("Erro Crítico", f"Falha ao limpar o arquivo Excel:\n{msg}")
+        self.lbl_status.configure(text="Erro ao limpar arquivo.", text_color="red")
 
     def ler_colunas(self):
-        if not getattr(self, 'sintetico_limpo_path', None): return
         try:
             l = int(self.ent_line.get()) - 1
-            # Como o ficheiro agora está limpo, o pandas lê sem dar erros bizarros
-            df = pd.read_excel(self.sintetico_limpo_path, header=l, nrows=5)
-            cols = [str(c).strip() for c in df.columns if "Unnamed" not in str(c)]
+            cols = self.controller.ler_colunas(l)
             for k, cb in self.combos_map.items():
                 cb.configure(values=cols)
                 for c in cols:
@@ -786,62 +688,54 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                     if k=="UNIT" and "VALOR" in c.upper(): cb.set(c)
         except: pass
 
-    # ==========================================================
-    # LEITOR E RADAR INTELIGENTE (100% Funcional e Rápido)
-    # ==========================================================
     def carregar_preview(self):
-        if not getattr(self, 'sintetico_limpo_path', None): 
-            return messagebox.showwarning("Erro", "Selecione o sintético primeiro.")
-            
         self.configure(cursor="watch")
         self.lbl_status.configure(text="Carregando tabela...", text_color="orange")
-        self.update()
         
-        try:
-            # Força atualizar as colunas para o caso do utilizador ter mudado o número da linha
-            self.ler_colunas() 
-            
-            l = int(self.ent_line.get()) - 1
-            
-            # O Pandas agora carrega o ficheiro sem se preocupar com os XMLs corrompidos!
-            df = pd.read_excel(self.sintetico_limpo_path, header=l)
-            df.columns = [str(c).strip() for c in df.columns]
-            
-            c_i = self.combos_map["ITEM"].get()
-            c_d = self.combos_map["DESCRICAO"].get()
-            c_c = self.combos_map["CODIGO"].get()
-            c_b = self.combos_map["BANCO"].get()
-            c_u = self.combos_map["UNIT"].get()
+        self.progress.pack(side="bottom", padx=10, pady=(0, 5), fill="x")
+        self.progress.start()
 
-            self.table_control.clear()
+        self.ler_colunas()
+        l = int(self.ent_line.get()) - 1
+
+        c_i = self.combos_map["ITEM"].get()
+        c_d = self.combos_map["DESCRICAO"].get()
+        c_c = self.combos_map["CODIGO"].get()
+        c_b = self.combos_map["BANCO"].get()
+        c_u = self.combos_map["UNIT"].get()
+
+        self.table_control.clear()
+
+        self.controller.carregar_preview(l, c_i, c_d, c_c, c_b, c_u)
+
+    def _on_carregar_preview_sucesso(self, dados_linhas):
+        self.progress.stop()
+        self.progress.pack_forget()
+        self.configure(cursor="")
+
+        for data in dados_linhas:
+            self.table_control.add_row(
+                data['index_excel'],
+                data['item_val'],
+                data['desc_val'],
+                data['cod_val'],
+                data['banco_val'],
+                data['raw_row_data'],
+                data['unit_val']
+            )
             
-            # RADAR DE PARADA
-            palavras_parada = ["TOTAL SEM BDI", "TOTAL DO BDI", "TOTAL GERAL", "VALOR GLOBAL", "CUSTO TOTAL"]
-            
-            for idx, row in df.iterrows():
-                desc_val = str(row.get(c_d, 'nan')).strip()
-                desc_upper = desc_val.upper()
-                
-                # Se o radar apitar com as palavras do rodapé, encerra o loop de leitura!
-                if any(p in desc_upper for p in palavras_parada):
-                    self.logger.info(f"🛑 Fim do orçamento detetado pelo radar na linha {l+idx+2}.")
-                    break
-                    
-                if desc_val == 'nan' or desc_val == '' or desc_val == 'None': continue
-                
-                unit_val = row.get(c_u, 0)
-                self.table_control.add_row(l+idx+2, row.get(c_i,''), desc_val, row.get(c_c,''), row.get(c_b,''), row, unit_val)
-                
-            self.tabview.set("🏗️ Painel de Orçamento")
-            self.lbl_status.configure(text="Tabela carregada com sucesso.", text_color="lime")
-        except Exception as e: 
-            messagebox.showerror("Erro de Leitura", f"Ocorreu um erro ao carregar a tabela:\n{str(e)}")
-            self.lbl_status.configure(text="Erro ao ler ficheiro.", text_color="red")
-        finally: 
-            self.configure(cursor="")
+        self.tabview.set("🏗️ Painel de Orçamento")
+        self.lbl_status.configure(text="Tabela carregada com sucesso.", text_color="lime")
+
+    def _on_carregar_preview_erro(self, msg):
+        self.progress.stop()
+        self.progress.pack_forget()
+        self.configure(cursor="")
+        messagebox.showerror("Erro de Leitura", msg)
+        self.lbl_status.configure(text="Erro ao ler ficheiro.", text_color="red")
 
     def carregar_ui_perfil(self, nome):
-        prof = self.dados_config["perfis"].get("PADRAO", {}).get("input", {})
+        prof = self.controller.dados_config["perfis"].get("PADRAO", {}).get("input", {})
         for k, v in prof.items():
             if k in self.combos_map: self.combos_map[k].set(v)
 
@@ -853,7 +747,7 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         return valor
 
     def executar(self):
-        if not self.modelo_path: return messagebox.showwarning("Erro", "Nenhum modelo selecionado! Use o botão de engrenagem para adicionar um.")
+        if not self.controller.modelo_path: return messagebox.showwarning("Erro", "Nenhum modelo selecionado! Use o botão de engrenagem para adicionar um.")
         d = self.table_control.get_final_data()
         if not d: return messagebox.showwarning("Vazio", "Tabela vazia")
         m = {k: cb.get() for k, cb in self.combos_map.items()}
@@ -891,7 +785,7 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         }
         
         for key in ["campus", "setor", "servidor", "elaborador", "estagiario", "fiscal"]:
-             self.autocomplete.add_value(key, info[key])
+             self.controller.autocomplete.add_value(key, info[key])
         
         self.atualizar_listas_visuais()
         self._salvar_sessao_atual()
@@ -901,60 +795,28 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.progress.pack(side="bottom", padx=10, pady=(0, 5), fill="x")
         self.progress.start()
         
-        threading.Thread(target=self._run, args=(d, m, info)).start()
+        self.controller.gerar_orcamento(d, m, info, self.controller.modelo_path)
 
-    def _run(self, d, m, p):
-        start_time = time.time()
-        eng = OrcamentoEngine({})
-        ok, msg, extra_info = eng.gerar_excel_final(d, self.modelo_path, m, p)
-        
-        pdf_msg = ""
-        if ok and p.get("gerar_pdf", 0) == 1:
-            self.logger.info("Iniciando conversão para PDF...")
-            ok_pdf, path_pdf, log_pdf = PDFExporter.converter_para_pdf(msg)
-            if ok_pdf:
-                self.logger.info(f"✅ PDF Gerado: {path_pdf}")
-                pdf_msg = f"\n\nPDF também gerado:\n{path_pdf}"
-            else:
-                self.logger.error(f"Erro no PDF: {log_pdf}")
-
-        end_time = time.time()
-        duration = end_time - start_time
-        self.after(0, lambda: self._finish_run(ok, msg, duration, p, d, pdf_msg))
-
-    def _finish_run(self, ok, msg, duration, info_data, raw_data, pdf_msg):
+    def _on_gerar_orcamento_sucesso(self, msg, duration, info_data, raw_data, pdf_msg):
         self.progress.stop()
         self.progress.pack_forget()
         self.btn_run.configure(state="normal", text="🚀 GERAR ORÇAMENTO")
         
-        if ok:
-            try:
-                dados_historico = {
-                    'data_geracao': info_data.get('data'),
-                    'nome_obra': info_data.get('nome_arquivo'),
-                    'local': f"{info_data.get('campus')} - {info_data.get('setor')}",
-                    'bdi': info_data.get('bdi'),
-                    'valor_total': 0.0,
-                    'arquivo_saida': msg,
-                    'num_itens': len(raw_data),
-                    'num_titulos': sum(1 for x in raw_data if x.get('_NIVEL_FORCADO') != 'ITEM'),
-                    'duracao_processamento': round(duration, 2)
-                }
-                self.db_manager.inserir_orcamento(dados_historico)
-                self.lbl_status.configure(text="Concluído com sucesso!", text_color="lime")
-                self.logger.info("✅ Histórico salvo no banco de dados.")
-            except Exception as e:
-                self.logger.error(f"Erro ao salvar histórico: {e}")
+        self.lbl_status.configure(text="Concluído com sucesso!", text_color="lime")
+        messagebox.showinfo("Sucesso", f"Salvo com sucesso em:\n{msg}{pdf_msg}")
+        try: os.startfile(msg)
+        except: pass
 
-            messagebox.showinfo("Sucesso", f"Salvo com sucesso em:\n{msg}{pdf_msg}")
-            try: os.startfile(msg)
-            except: pass
+    def _on_gerar_orcamento_erro(self, msg):
+        self.progress.stop()
+        self.progress.pack_forget()
+        self.btn_run.configure(state="normal", text="🚀 GERAR ORÇAMENTO")
+        
+        self.lbl_status.configure(text="Erro no processamento.", text_color="red")
+        if "Permission denied" in msg or "aberto" in msg:
+            messagebox.showerror("Arquivo Aberto", f"O arquivo parece estar aberto no Excel.\n\nPor favor, feche o arquivo '{msg}' e tente novamente.")
         else:
-            self.lbl_status.configure(text="Erro no processamento.", text_color="red")
-            if "Permission denied" in msg or "aberto" in msg:
-                messagebox.showerror("Arquivo Aberto", f"O arquivo parece estar aberto no Excel.\n\nPor favor, feche o arquivo '{msg}' e tente novamente.")
-            else:
-                messagebox.showerror("Erro Fatal", msg)
+            messagebox.showerror("Erro Fatal", msg)
 
     def _log_callback(self, n, m):
         self.log_box.insert("end", m + "\n")
