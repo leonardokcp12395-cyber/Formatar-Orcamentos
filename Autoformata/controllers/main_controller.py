@@ -57,7 +57,8 @@ class MainController:
                 elif action == 'carregar_preview_erro':
                     self.view._on_carregar_preview_erro(msg['erro_msg'])
                 elif action == 'gerar_orcamento_sucesso':
-                    self.view._on_gerar_orcamento_sucesso(msg['msg'], msg['duration'], msg['info_data'], msg['raw_data'], msg['pdf_msg'])
+                    self.view._on_gerar_orcamento_sucesso(
+                        msg['msg'], msg['duration'], msg['info_data'], msg['raw_data'], msg['pdf_msg'])
                 elif action == 'gerar_orcamento_erro':
                     self.view._on_gerar_orcamento_erro(msg['msg'])
         except queue.Empty:
@@ -90,7 +91,8 @@ class MainController:
 
     def iniciar_leitura_segura(self, original_path):
         self.sintetico_original_path = original_path
-        threading.Thread(target=self._limpar_planilha_sipac, args=(original_path,), daemon=True).start()
+        threading.Thread(target=self._limpar_planilha_sipac,
+                         args=(original_path,), daemon=True).start()
 
     def _limpar_planilha_sipac(self, caminho_original):
         """Abre o ficheiro no próprio Excel invisível e guarda uma cópia limpa e sem erros"""
@@ -101,13 +103,16 @@ class MainController:
         try:
             shutil.copy2(caminho_original, caminho_copia)
         except Exception as e:
-            self.ui_queue.put({'action': 'limpar_planilha_erro', 'erro_msg': f"Falha ao tirar bloqueio de segurança: {e}"})
+            self.ui_queue.put({'action': 'limpar_planilha_erro',
+                              'erro_msg': f"Falha ao tirar bloqueio de segurança: {e}"})
             return
 
         caminho_limpo = str(temp_dir / "temp_sintetico_limpo.xlsx")
         if os.path.exists(caminho_limpo):
-            try: os.remove(caminho_limpo)
-            except: pass
+            try:
+                os.remove(caminho_limpo)
+            except:
+                pass
 
         excel = None
         wb = None
@@ -118,30 +123,41 @@ class MainController:
             excel.DisplayAlerts = False
 
             caminho_abs = os.path.abspath(caminho_copia)
-            wb = excel.Workbooks.Open(caminho_abs, UpdateLinks=False, ReadOnly=True)
+            wb = excel.Workbooks.Open(
+                caminho_abs, UpdateLinks=False, ReadOnly=True)
             wb.SaveAs(os.path.abspath(caminho_limpo), FileFormat=51)
 
             wb.Close(False)
             excel.Quit()
 
             self.sintetico_limpo_path = caminho_limpo
-            self.ui_queue.put({'action': 'limpar_planilha_sucesso', 'path_limpo': caminho_limpo})
+            self.ui_queue.put(
+                {'action': 'limpar_planilha_sucesso', 'path_limpo': caminho_limpo})
         except Exception as e:
-            self.ui_queue.put({'action': 'limpar_planilha_erro', 'erro_msg': f"Erro COM do Windows: {str(e)}"})
+            self.ui_queue.put({'action': 'limpar_planilha_erro',
+                              'erro_msg': f"Erro COM do Windows: {str(e)}"})
         finally:
             if wb:
-                try: wb.Close(False)
-                except: pass
+                try:
+                    wb.Close(False)
+                except:
+                    pass
             if excel:
-                try: excel.Quit()
-                except: pass
-            try: pythoncom.CoUninitialize()
-            except: pass
+                try:
+                    excel.Quit()
+                except:
+                    pass
+            try:
+                pythoncom.CoUninitialize()
+            except:
+                pass
 
     def ler_colunas(self, line_num):
-        if not self.sintetico_limpo_path: return []
+        if not self.sintetico_limpo_path:
+            return []
         try:
-            df = pd.read_excel(self.sintetico_limpo_path, header=line_num, nrows=5)
+            df = pd.read_excel(self.sintetico_limpo_path,
+                               header=line_num, nrows=5)
             return [str(c).strip() for c in df.columns if "Unnamed" not in str(c)]
         except Exception as e:
             print(f"Erro ao ler colunas: {e}")
@@ -149,17 +165,20 @@ class MainController:
 
     def carregar_preview(self, line_num, m_item, m_desc, m_cod, m_banco, m_unit):
         if not self.sintetico_limpo_path:
-            self.ui_queue.put({'action': 'carregar_preview_erro', 'erro_msg': 'Selecione o sintético primeiro.'})
+            self.ui_queue.put({'action': 'carregar_preview_erro',
+                              'erro_msg': 'Selecione o sintético primeiro.'})
             return
 
-        threading.Thread(target=self._ler_dados_preview, args=(line_num, m_item, m_desc, m_cod, m_banco, m_unit), daemon=True).start()
+        threading.Thread(target=self._ler_dados_preview, args=(
+            line_num, m_item, m_desc, m_cod, m_banco, m_unit), daemon=True).start()
 
     def _ler_dados_preview(self, line_num, m_item, m_desc, m_cod, m_banco, m_unit):
         try:
             df = pd.read_excel(self.sintetico_limpo_path, header=line_num)
             df.columns = [str(c).strip() for c in df.columns]
 
-            palavras_parada = ["TOTAL SEM BDI", "TOTAL DO BDI", "TOTAL GERAL", "VALOR GLOBAL", "CUSTO TOTAL"]
+            palavras_parada = ["TOTAL SEM BDI", "TOTAL DO BDI",
+                               "TOTAL GERAL", "VALOR GLOBAL", "CUSTO TOTAL"]
 
             dados_linhas = []
 
@@ -168,30 +187,35 @@ class MainController:
                 desc_upper = desc_val.upper()
 
                 if any(p in desc_upper for p in palavras_parada):
-                    self.logger.info(f"🛑 Fim do orçamento detetado pelo radar na linha {line_num+idx+2}.")
+                    self.logger.info(
+                        f"🛑 Fim do orçamento detetado pelo radar na linha {line_num+idx+2}.")
                     break
 
-                if desc_val == 'nan' or desc_val == '' or desc_val == 'None': continue
+                if desc_val == 'nan' or desc_val == '' or desc_val == 'None':
+                    continue
 
                 unit_val = row.get(m_unit, 0)
 
                 # We need to pass row as a dict so it can be safely sent over queue
                 dados_linhas.append({
                     'index_excel': line_num+idx+2,
-                    'item_val': row.get(m_item,''),
+                    'item_val': row.get(m_item, ''),
                     'desc_val': desc_val,
-                    'cod_val': row.get(m_cod,''),
-                    'banco_val': row.get(m_banco,''),
+                    'cod_val': row.get(m_cod, ''),
+                    'banco_val': row.get(m_banco, ''),
                     'raw_row_data': row.to_dict(),
                     'unit_val': unit_val
                 })
 
-            self.ui_queue.put({'action': 'carregar_preview_sucesso', 'dados_linhas': dados_linhas})
+            self.ui_queue.put(
+                {'action': 'carregar_preview_sucesso', 'dados_linhas': dados_linhas})
         except Exception as e:
-            self.ui_queue.put({'action': 'carregar_preview_erro', 'erro_msg': f"Ocorreu um erro ao carregar a tabela:\n{str(e)}"})
+            self.ui_queue.put({'action': 'carregar_preview_erro',
+                              'erro_msg': f"Ocorreu um erro ao carregar a tabela:\n{str(e)}"})
 
     def gerar_orcamento(self, d, m, info, modelo_path):
-        threading.Thread(target=self._run_orcamento, args=(d, m, info, modelo_path), daemon=True).start()
+        threading.Thread(target=self._run_orcamento, args=(
+            d, m, info, modelo_path), daemon=True).start()
 
     def _run_orcamento(self, d, m, p, modelo_path):
         start_time = time.time()
@@ -212,7 +236,7 @@ class MainController:
         duration = end_time - start_time
 
         if ok:
-             try:
+            try:
                 dados_historico = {
                     'data_geracao': p.get('data'),
                     'nome_obra': p.get('nome_arquivo'),
@@ -226,22 +250,22 @@ class MainController:
                 }
                 self.db_manager.inserir_orcamento(dados_historico)
                 self.logger.info("✅ Histórico salvo no banco de dados.")
-             except Exception as e:
+            except Exception as e:
                 self.logger.error(f"Erro ao salvar histórico: {e}")
 
-             self.ui_queue.put({
-                 'action': 'gerar_orcamento_sucesso',
-                 'msg': msg,
-                 'duration': duration,
-                 'info_data': p,
-                 'raw_data': d,
-                 'pdf_msg': pdf_msg
-             })
+            self.ui_queue.put({
+                'action': 'gerar_orcamento_sucesso',
+                'msg': msg,
+                'duration': duration,
+                'info_data': p,
+                'raw_data': d,
+                'pdf_msg': pdf_msg
+            })
         else:
-             self.ui_queue.put({
-                 'action': 'gerar_orcamento_erro',
-                 'msg': msg
-             })
+            self.ui_queue.put({
+                'action': 'gerar_orcamento_erro',
+                'msg': msg
+            })
 
     def extrair_dados_texto(self, texto):
         return SmartParser.parse_whatsapp_text(texto, self.autocomplete)

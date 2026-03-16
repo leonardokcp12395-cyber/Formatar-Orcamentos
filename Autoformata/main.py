@@ -89,6 +89,8 @@ def iniciar():
         if 'splash' in locals() and splash.winfo_exists(): splash.destroy()
         print("\n❌ ERRO CRÍTICO: Faltam bibliotecas.")
         print(f"Detalhe: {e}")
+        print("\nPor favor, execute o comando abaixo no terminal para instalar as dependências necessárias:")
+        print("pip install -r requirements.txt")
         input("\nENTER para sair...")
     except Exception as e:
         if 'splash' in locals() and splash.winfo_exists(): splash.destroy()
