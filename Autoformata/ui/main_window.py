@@ -7,6 +7,9 @@ from tkinter import ttk
 import tkinter as tk
 
 from controllers.main_controller import MainController
+from ui.components.top_dashboard import TopDashboard
+from ui.components.side_panel import SidePanel
+from ui.components.config_panel import ConfigPanel
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -357,44 +360,8 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.grid_rowconfigure(1, weight=1)
 
         # TOPO: DASHBOARD
-        top_dashboard = ctk.CTkFrame(
-            self, fg_color="#1E1E1E", border_width=1, border_color="#3498DB")
-        top_dashboard.grid(row=0, column=0, sticky="ew", padx=10, pady=10)
-        top_dashboard.grid_columnconfigure(0, weight=1)
-        top_dashboard.grid_columnconfigure(1, weight=1)
-
-        f_sint = ctk.CTkFrame(top_dashboard, fg_color="transparent")
-        f_sint.grid(row=0, column=0, padx=15, pady=10, sticky="nsew")
-        ctk.CTkLabel(f_sint, text="1. Arraste ou Selecione o Sintético", font=(
-            "Arial", 13, "bold"), text_color="#3498DB").pack(anchor="w")
-
-        f_sint_inner = ctk.CTkFrame(f_sint, fg_color="transparent")
-        f_sint_inner.pack(fill="x", pady=5)
-        ctk.CTkButton(f_sint_inner, text="📂 Selecionar", width=100,
-                      command=self.sel_sintetico).pack(side="left", padx=(0, 10))
-        self.lbl_sint = ctk.CTkLabel(
-            f_sint_inner, text="Nenhum arquivo", text_color="gray")
-        self.lbl_sint.pack(side="left")
-
-        ctk.CTkButton(f_sint, text="🔄 Carregar Tabela Visual",
-                      command=self.carregar_preview, fg_color="#E67E22").pack(anchor="w", pady=5)
-
-        f_wpp = ctk.CTkFrame(top_dashboard, fg_color="transparent")
-        f_wpp.grid(row=0, column=1, padx=15, pady=10, sticky="nsew")
-        ctk.CTkLabel(f_wpp, text="2. Importação Inteligente (WhatsApp)", font=(
-            "Arial", 13, "bold"), text_color="#8E44AD").pack(anchor="w")
-
-        f_wpp_inner = ctk.CTkFrame(f_wpp, fg_color="transparent")
-        f_wpp_inner.pack(fill="x", pady=5)
-        self.txt_import = ctk.CTkTextbox(f_wpp_inner, height=55)
-        self.txt_import.pack(side="left", fill="x", expand=True, padx=(0, 10))
-        ctk.CTkButton(f_wpp_inner, text="🪄 Extrair", command=self.extrair_dados_texto,
-                      fg_color="#8E44AD", width=80, height=55).pack(side="right")
-
-        self.switch_tema = ctk.CTkSwitch(
-            top_dashboard, text="Modo Escuro", command=self._alternar_tema)
-        self.switch_tema.select()
-        self.switch_tema.place(relx=0.98, rely=0.1, anchor="ne")
+        self.top_dashboard = TopDashboard(self, self)
+        self.top_dashboard.grid(row=0, column=0, sticky="ew", padx=10, pady=10)
 
         self.tabview = ctk.CTkTabview(self)
         self.tabview.grid(row=1, column=0, sticky="nsew", padx=10, pady=0)
@@ -402,169 +369,26 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.tab_main = self.tabview.add("🏗️ Painel de Orçamento")
         self.tab_config = self.tabview.add("⚙️ Configurações & Mapeamento")
 
-        # -----------------------------------------------------------------
         # NOVO LAYOUT REVOLUCIONÁRIO: PAINEL LATERAL + TABELA GIGANTE
-        # -----------------------------------------------------------------
-        self.tab_main.grid_columnconfigure(
-            0, weight=0, minsize=320)  # Lado Esquerdo Fixo
-        # Lado Direito Ocupa Todo o Resto
+        self.tab_main.grid_columnconfigure(0, weight=0, minsize=320)
         self.tab_main.grid_columnconfigure(1, weight=1)
-        self.tab_main.grid_rowconfigure(0, weight=1)  # Ocupa a altura inteira
+        self.tab_main.grid_rowconfigure(0, weight=1)
 
         # --- PAINEL ESQUERDO (DADOS DA OBRA) ---
-        f_dados = ctk.CTkScrollableFrame(
-            self.tab_main, fg_color="transparent", width=310)
-        f_dados.grid(row=0, column=0, sticky="nsew", padx=(0, 10), pady=0)
-
-        f_top_dados = ctk.CTkFrame(f_dados, fg_color="transparent")
-        f_top_dados.pack(fill="x", pady=(0, 10))
-        ctk.CTkLabel(f_top_dados, text="Dados da Obra",
-                     font=("Arial", 14, "bold")).pack(side="left")
-        ctk.CTkButton(f_top_dados, text="📝 Listas", command=self.abrir_editor_db,
-                      width=60, height=24, fg_color="#444").pack(side="right")
-
-        ctk.CTkLabel(f_dados, text="Nome (Arquivo):", font=(
-            "Arial", 11, "bold")).pack(anchor="w")
-        self.ent_nome_arquivo = ctk.CTkEntry(f_dados, width=290)
-        self.ent_nome_arquivo.pack(anchor="w", pady=(0, 5))
-        self.inputs_refs["nome_arquivo"] = self.ent_nome_arquivo
-
-        ctk.CTkLabel(f_dados, text="Descrição (C15):",
-                     font=("Arial", 11, "bold")).pack(anchor="w")
-        self.ent_desc_cabecalho = ctk.CTkEntry(f_dados, width=290)
-        self.ent_desc_cabecalho.pack(anchor="w", pady=(0, 10))
-        self.inputs_refs["descricao_header"] = self.ent_desc_cabecalho
-
-        grid_f = ctk.CTkFrame(f_dados, fg_color="#212121")
-        grid_f.pack(fill="x", pady=5)
-
-        self.cbo_campus = self._add_side_field(grid_f, "Campus:", "campus")
-        self.cbo_setor = self._add_side_field(grid_f, "Setor:", "setor")
-        self.cbo_fiscal = self._add_side_field(grid_f, "Fiscal:", "fiscal")
-        self.cbo_servidor = self._add_side_field(
-            grid_f, "Servidor:", "servidor")
-        self.cbo_elab = self._add_side_field(
-            grid_f, "Elaborador:", "elaborador")
-        self.cbo_estag = self._add_side_field(
-            grid_f, "Estagiário:", "estagiario")
-
-        self.ent_data = self._add_side_input(grid_f, "Data Elab.:", "data")
-        self.ent_orcafascio = self._add_side_input(
-            grid_f, "Orçafascio:", "orcafascio")
-        self.ent_processo = self._add_side_input(
-            grid_f, "Processo:", "processo")
-        self.ent_num_orc = self._add_side_input(
-            grid_f, "Nº Orc:", "num_orcamento")
-        self.ent_empenho = self._add_side_input(grid_f, "Empenho:", "empenho")
-        self.ent_data_emissao = self._add_side_input(
-            grid_f, "Emissão:", "data_emissao")
-        self.ent_data_inicio = self._add_side_input(
-            grid_f, "Início:", "data_inicio")
-
-        f_p_inner = ctk.CTkFrame(f_dados, fg_color="transparent")
-        f_p_inner.pack(fill="x", pady=10)
-        ctk.CTkLabel(f_p_inner, text="Valor Sim. (R$):",
-                     font=("Arial", 11, "bold")).pack(anchor="w")
-        self.ent_valor_sim = ctk.CTkEntry(
-            f_p_inner, width=290, placeholder_text="0,00")
-        self.ent_valor_sim.pack(anchor="w", pady=(0, 5))
-        self.ent_valor_sim.bind("<FocusOut>", self._calcular_prazo_auto)
-        self.ent_valor_sim.bind("<Return>", self._calcular_prazo_auto)
-
-        ctk.CTkLabel(f_p_inner, text="Prazo Final:", font=(
-            "Arial", 11, "bold")).pack(anchor="w")
-        self.ent_prazo = ctk.CTkEntry(f_p_inner, width=290)
-        self.ent_prazo.pack(anchor="w")
-        self.inputs_refs["prazo"] = self.ent_prazo
+        self.side_panel = SidePanel(self.tab_main, self)
+        self.side_panel.grid(row=0, column=0, sticky="nsew", padx=(0, 10), pady=0)
 
         # --- PAINEL DIREITO (TABELA VISUAL GIGANTE) ---
         self.table_control = LevelSelector(self.tab_main)
         self.table_control.grid(row=0, column=1, sticky="nsew", pady=0)
         self.table_control.setup_headers()
 
-        # ------------------------------------------
         # ABA 2: CONFIGURAÇÕES E MAPEAMENTO
-        # ------------------------------------------
-        f_conf_scroll = ctk.CTkScrollableFrame(self.tab_config)
-        f_conf_scroll.pack(fill="both", expand=True, padx=5, pady=5)
-
-        f_leitura = ctk.CTkFrame(f_conf_scroll)
-        f_leitura.pack(fill="x", pady=5, padx=10)
-        ctk.CTkLabel(f_leitura, text="1. Modelo e Sintético", font=(
-            "Arial", 12, "bold")).pack(anchor="w", padx=10, pady=5)
-
-        f_l_inner = ctk.CTkFrame(f_leitura, fg_color="transparent")
-        f_l_inner.pack(fill="x", padx=10, pady=5)
-
-        ctk.CTkLabel(f_l_inner, text="Modelo Excel:").pack(side="left")
-        self.combo_modelos = ctk.CTkComboBox(
-            f_l_inner, width=250, command=self._ao_trocar_modelo)
-        self.combo_modelos.pack(side="left", padx=5)
-        ctk.CTkButton(f_l_inner, text="⚙️ Gerenciar Modelos", width=140, fg_color="#555",
-                      command=self._abrir_gerenciador_modelos).pack(side="left", padx=5)
-
-        ctk.CTkLabel(f_l_inner, text="Ler Sintético a partir da Linha:").pack(
-            side="left", padx=(20, 5))
-        self.ent_line = ctk.CTkEntry(f_l_inner, width=50)
-        self.ent_line.insert(0, "4")
-        self.ent_line.pack(side="left")
-
-        f_fin = ctk.CTkFrame(f_conf_scroll)
-        f_fin.pack(fill="x", pady=10, padx=10)
-        ctk.CTkLabel(f_fin, text="2. Financeiro & Saída", font=(
-            "Arial", 12, "bold")).pack(anchor="w", padx=10, pady=5)
-
-        fin_grid = ctk.CTkFrame(f_fin, fg_color="transparent")
-        fin_grid.pack(fill="x", padx=10, pady=5)
-
-        ctk.CTkLabel(fin_grid, text="BDI:").grid(
-            row=0, column=0, padx=5, pady=5, sticky="w")
-        self.combo_bdi = ctk.CTkComboBox(fin_grid, width=250, values=[
-                                         "28,82% (SUP - Desc 0,19)", "35,18% (PRUMO - Desc 0,0601)", "0,00%"])
-        self.combo_bdi.grid(row=0, column=1, padx=5, pady=5, sticky="w")
-        self.inputs_refs["bdi_combo"] = self.combo_bdi
-
-        ctk.CTkLabel(fin_grid, text="Método de Cálculo:").grid(
-            row=1, column=0, padx=5, pady=5, sticky="w")
-        self.combo_metodo_calc = ctk.CTkComboBox(fin_grid, width=250, values=[
-                                                 "Cortar Casas (Padrão - Ignora resto)", "Arredondar (2 Casas - Matemático)", "Exato (Sem tratamento - Excel)"])
-        self.combo_metodo_calc.grid(
-            row=1, column=1, padx=5, pady=5, sticky="w")
-        self.combo_metodo_calc.set("Cortar Casas (Padrão - Ignora resto)")
-
-        ctk.CTkLabel(fin_grid, text="Altura Linha (Px):").grid(
-            row=0, column=2, padx=(20, 5), pady=5, sticky="w")
-        self.ent_altura = ctk.CTkEntry(fin_grid, width=100)
-        self.ent_altura.insert(0, "24.75")
-        self.ent_altura.grid(row=0, column=3, padx=5, pady=5, sticky="w")
-
-        self.chk_pdf = ctk.CTkCheckBox(
-            fin_grid, text="Gerar PDF automaticamente após Excel", text_color="lime")
-        self.chk_pdf.grid(row=1, column=2, columnspan=2,
-                          padx=(20, 5), pady=5, sticky="w")
-
-        f_map = ctk.CTkFrame(f_conf_scroll)
-        f_map.pack(fill="x", pady=10, padx=10)
-        ctk.CTkLabel(f_map, text="3. Mapeamento de Colunas", font=(
-            "Arial", 12, "bold")).pack(anchor="w", padx=10, pady=5)
-
-        f_map_inner = ctk.CTkFrame(f_map, fg_color="transparent")
-        f_map_inner.pack(fill="x", padx=10, pady=5)
-
-        self.combos_map = {}
-        campos = ["ITEM", "CODIGO", "BANCO",
-                  "DESCRICAO", "UNID", "QUANT", "UNIT"]
-        for i, camp in enumerate(campos):
-            r = i // 2
-            c = (i % 2) * 2
-            ctk.CTkLabel(f_map_inner, text=f"{camp}:", width=80, anchor="e").grid(
-                row=r, column=c, padx=5, pady=5)
-            cb = ctk.CTkComboBox(f_map_inner, values=["..."], width=200)
-            cb.grid(row=r, column=c+1, padx=5, pady=5)
-            self.combos_map[camp] = cb
+        self.config_panel = ConfigPanel(self.tab_config, self)
+        self.config_panel.pack(fill="both", expand=True, padx=5, pady=5)
 
         # ==========================================
-        # 3. RODAPÉ FIXO (Sempre visível)
+        # RODAPÉ FIXO (Sempre visível)
         # ==========================================
         bot = ctk.CTkFrame(self, height=100)
         bot.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
@@ -592,6 +416,10 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
 
         self.log_box = ctk.CTkTextbox(bot, height=90)
         self.log_box.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+
+        self.log_box.tag_config("ERROR", foreground="red")
+        self.log_box.tag_config("SUCCESS", foreground="lime")
+        self.log_box.tag_config("INFO", foreground="white")
 
         self._atualizar_combo_modelos()
 
@@ -750,7 +578,27 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                 f"📂 Arquivo selecionado manualmente: {os.path.basename(p)}")
             self._iniciar_leitura_segura(p)
 
+    def limpar_dados_sessao(self):
+        for key, widget in self.inputs_refs.items():
+            if isinstance(widget, ctk.CTkEntry):
+                widget.delete(0, 'end')
+            elif isinstance(widget, ctk.CTkComboBox):
+                widget.set("")
+
+        self.lbl_sint.configure(text="Nenhum arquivo", text_color="gray")
+        self.txt_import.delete("0.0", "end")
+        self.table_control.clear()
+
+        for k, cb in self.combos_map.items():
+            cb.set("...")
+
+        self.controller.limpar_dados_sessao()
+        self.controller.logger.info("🧹 Sessão limpa para novo orçamento.")
+        self.lbl_status.configure(text="Sessão limpa.", text_color="lime")
+
     def _iniciar_leitura_segura(self, path):
+        self.limpar_dados_sessao()
+
         self.configure(cursor="watch")
         self.lbl_status.configure(
             text="Limpando corrupções do arquivo SIPAC/SEI...", text_color="orange")
@@ -918,15 +766,21 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.btn_run.configure(state="disabled", text="Processando...")
         self.lbl_status.configure(
             text="Iniciando motor de cálculo...", text_color="orange")
+
+        self.progress.configure(mode="determinate")
+        self.progress.set(0)
         self.progress.pack(side="bottom", padx=10, pady=(0, 5), fill="x")
-        self.progress.start()
 
         self.controller.gerar_orcamento(
             d, m, info, self.controller.modelo_path)
 
+    def _on_gerar_orcamento_progresso(self, pct):
+        self.progress.set(pct / 100.0)
+        self.lbl_status.configure(text=f"Processando: {pct}%")
+
     def _on_gerar_orcamento_sucesso(self, msg, duration, info_data, raw_data, pdf_msg):
-        self.progress.stop()
         self.progress.pack_forget()
+        self.progress.configure(mode="indeterminate")
         self.btn_run.configure(state="normal", text="🚀 GERAR ORÇAMENTO")
 
         self.lbl_status.configure(
@@ -939,8 +793,8 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
             pass
 
     def _on_gerar_orcamento_erro(self, msg):
-        self.progress.stop()
         self.progress.pack_forget()
+        self.progress.configure(mode="indeterminate")
         self.btn_run.configure(state="normal", text="🚀 GERAR ORÇAMENTO")
 
         self.lbl_status.configure(
@@ -952,5 +806,12 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
             messagebox.showerror("Erro Fatal", msg)
 
     def _log_callback(self, n, m):
-        self.log_box.insert("end", m + "\n")
+        msg_upper = m.upper()
+        tag = "INFO"
+        if "ERRO" in msg_upper or "❌" in m:
+            tag = "ERROR"
+        elif "SUCESSO" in msg_upper or "✅" in m or "CONCLUÍDO" in msg_upper:
+            tag = "SUCCESS"
+
+        self.log_box.insert("end", m + "\n", tag)
         self.log_box.see("end")

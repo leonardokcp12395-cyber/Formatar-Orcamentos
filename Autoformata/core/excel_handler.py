@@ -23,7 +23,7 @@ class OrcamentoEngine:
         self.mapa_colunas = {}
         self.FMT_CONTABIL = '_("R$"* #,##0.00_);_("R$"* (#,##0.00);_("R$"* "-"??_);_(@_)'
 
-    def gerar_excel_final(self, linhas_aprovadas, modelo_path, mapa_colunas, info):
+    def gerar_excel_final(self, linhas_aprovadas, modelo_path, mapa_colunas, info, progress_callback=None):
         Logger.info(">>> ENGINE V45: RETRY + PDF READY <<<")
         self.info = info
         self.mapa_colunas = mapa_colunas
@@ -127,7 +127,7 @@ class OrcamentoEngine:
                 break
         return start_row
 
-    def _processar_itens(self, linhas_aprovadas, start_row):
+    def _processar_itens(self, linhas_aprovadas, start_row, progress_callback=None):
         FMT_NUM = '0.00'
         FMT_MOEDA = '"R$ "#,##0.00'
         calc_mode = self.info.get('calc_mode', 'EXACT')
