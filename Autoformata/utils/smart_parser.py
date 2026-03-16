@@ -1,23 +1,23 @@
 import re
-from difflib import get_close_matches
+from rapidfuzz import process, fuzz
 
 class SmartParser:
     """
     V2: Parser com Normalização de Dados.
-    Usa Regex para capturar e Fuzzy Matching para corrigir baseando-se no histórico.
+    Usa Regex para capturar e Fuzzy Matching (via RapidFuzz) para corrigir baseando-se no histórico.
     """
-    
+
     @staticmethod
     def parse_whatsapp_text(text: str, autocomplete_mgr=None) -> dict:
         """
         Analisa texto, extrai campos e (se fornecido o gerenciador) padroniza os valores.
         """
         data = {}
-        
+
         # 1. Limpeza básica pré-processamento
         clean_text = text.replace('*', '').replace(':', ' : ')
         lines = clean_text.split('\n')
-        
+
         # 2. Dicionário de Padrões
         patterns = {
             "campus": r"(?:CAMPUS|CAMPI|UNIDADE)\s*[:]?\s*(.*)",
@@ -38,13 +38,13 @@ class SmartParser:
         for line in lines:
             line = line.strip()
             if not line: continue
-            
+
             for key, pattern in patterns.items():
                 match = re.search(pattern, line, re.IGNORECASE)
                 if match:
                     val = match.group(1).strip().upper()
                     val = re.sub(r"^(DO |DA |DE |O |A )", "", val)
-                    
+
                     if key == "contrato" and "descricao_header" in data:
                          data["descricao_header"] += f" - {val}"
                     elif key == "contrato":
@@ -80,16 +80,17 @@ class SmartParser:
             if field_parser in data:
                 valor_extraido = data[field_parser]
                 opcoes_validas = mgr.get_list(field_db)
-                
+
                 if not opcoes_validas: continue
 
                 if valor_extraido in opcoes_validas:
                     continue
 
-                matches = get_close_matches(valor_extraido, opcoes_validas, n=1, cutoff=0.6)
-                
-                if matches:
-                    sugestao = matches[0]
-                    data[field_parser] = sugestao
-        
+                match = process.extractOne(valor_extraido, opcoes_validas, scorer=fuzz.ratio)
+
+                if match:
+                    sugestao, score, _ = match
+                    if score >= 60:  # 60 corresponds to cutoff=0.6 from difflib
+                        data[field_parser] = sugestao
+
         return data
