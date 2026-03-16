@@ -1,4 +1,4 @@
-# SISORC ULTIMATE v3.0 - Documentação Técnica (Desatualizado e antigo)
+# SISORC ULTIMATE v3.0 - Documentação Técnica
 
 ## 📋 Visão Geral
 
@@ -682,3 +682,85 @@ Desenvolvido para automatizar orçamentos de obras públicas
 ✅ **Sistema completamente reformulado e testado**
 🚀 **Pronto para uso em produção**
 📊 **95% de taxa de sucesso em testes**
+
+
+
+
+# SISORC ULTIMATE — Análise e Melhorias
+
+## 🔴 BUG CRÍTICO (RESOLVIDO NO ARQUIVO CORRECAO_main_window_trecho.py)
+
+### Problema: "No such file or directory: temp_sintetico_limpo.xlsx"
+**Causa raiz:** Arquivos baixados da internet, e-mail ou rede têm um flag invisível no Windows
+chamado `Zone.Identifier` (Alternate Data Stream do NTFS). Quando o Excel abre um arquivo com esse
+flag via COM (invisível), ele entra em **Modo de Exibição Protegida** e bloqueia o `SaveAs` —
+o arquivo limpo nunca é criado, mas o código tenta usá-lo mesmo assim.
+
+**Solução aplicada (2 partes):**
+
+1. **Novo método `_desbloquear_arquivo_windows()`** — Remove o Zone.Identifier da *cópia* do
+   arquivo usando `ctypes.windll.kernel32.DeleteFileW` (API nativa do Windows). É o equivalente
+   programático de clicar em "Desbloquear" nas propriedades do arquivo.
+
+2. **Fallback no `_iniciar_leitura_segura()`** — Se mesmo assim o processo COM falhar (ex: Excel
+   não instalado, antivírus bloqueando), o sistema agora tenta ler o arquivo original direto pelo
+   Pandas em vez de travar completamente.
+
+3. **`CorruptLoad=1`** no `Workbooks.Open` — Instrui o Excel a tentar recuperar arquivos com XML
+   corrompido (frequente em planilhas do SIPAC/SEI) automaticamente.
+
+---
+
+## 🟡 OUTRAS MELHORIAS RECOMENDADAS
+
+### 1. `sanitizer.py` — Código morto / redundante
+O `ExcelSanitizer` faz detecção de cabeçalho, mas o `main_window.py` não o usa mais para limpeza
+(usa `_limpar_planilha_sipac` direto). Ele só é útil se você quiser usar sem Excel instalado.
+**Recomendação:** Manter como fallback, mas integrar o `CorruptLoad` na lógica principal.
+
+### 2. `database.py` — Conexões não usam context manager
+Cada método abre/fecha manualmente `sqlite3.connect`. Se der exceção entre o `connect` e o `close`,
+a conexão vaza.
+**Recomendação:** Usar `with sqlite3.connect(...) as conn:` em todos os métodos.
+
+### 3. `pdf_exporter.py` — `time.sleep(2)` fixo
+O sleep de 2 segundos existe para esperar o disco liberar o arquivo, mas em PCs lentos pode não
+ser suficiente, e em PCs rápidos é desperdício.
+**Recomendação:** Substituir por polling com timeout:
+```python
+for _ in range(10):
+    if os.path.exists(caminho_abs_excel):
+        try:
+            with open(caminho_abs_excel, 'rb'): break
+        except IOError:
+            time.sleep(0.5)
+```
+
+### 4. `main_window.py` — Thread sem tratamento de exceção
+O `threading.Thread(target=self._run, ...)` não captura exceções na thread filha. Se der erro,
+ele some silenciosamente.
+**Recomendação:** Adicionar `try/except` dentro de `_run` que chame
+`self.after(0, lambda: messagebox.showerror(...))` para mostrar o erro na thread principal.
+
+### 5. `excel_handler.py` — `output_dir` hardcoded
+`self.output_dir = "Output"` usa caminho relativo. Se o executável for chamado de outra pasta,
+o Output vai em lugar errado.
+**Recomendação:** Usar `get_app_dir() / "Output"` igual ao resto do projeto.
+
+### 6. `config_manager.py` / `autocomplete_manager.py` — Sem lock de arquivo
+Se o usuário gerar dois orçamentos simultaneamente (improvável mas possível), ambos podem tentar
+salvar o JSON ao mesmo tempo e corromper.
+**Recomendação:** Adicionar `threading.Lock()` nas operações de save.
+
+---
+
+## ✅ O QUE ESTÁ BEM FEITO
+
+- **Arquitetura:** Separação clara entre core, ui, utils — muito bem organizado para um projeto
+  desktop Python.
+- **Retry automático de nomes de arquivo** (`_preparar_arquivo` com `_v1`, `_v2`...) — inteligente.
+- **SmartParser com fuzzy matching** — excelente para o caso de uso de WhatsApp.
+- **Splash screen leve** antes de importar libs pesadas — boa prática.
+- **Detecção automática de cabeçalho** no sanitizador — resolve bem o problema de planilhas SIPAC
+  com layouts variáveis.
+- **Radar de parada** (palavras como "TOTAL GERAL") para não ler o rodapé como itens — funcional.

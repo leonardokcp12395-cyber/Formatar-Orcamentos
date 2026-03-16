@@ -15,11 +15,23 @@
         "CEBN",
         "CASA DO ESTUDANTE",
         "AUDITÁRIO SETORIAL 1 E 2",
-        "RESTAURANTE UNIVERSITÁRIO"
+        "RESTAURANTE UNIVERSITÁRIO",
+        "ESCOLA DE MUSICA DA UFPA - EMUFPA",
+        "CAPACIT",
+        "ICED",
+        "NTPC",
+        "ETDUFPA",
+        "ICA",
+        "ICSA",
+        "FACULDADE DE FARMÁCIA",
+        "CTIC"
     ],
     "servidor": [
         "testservidor",
-        "TESTSERVIDOR"
+        "TARIK COELHO ALVES",
+        "JÉSSICA TARINE MOITINHO DE LIMA",
+        "VALDA HELENA",
+        "FÁBIO MENDONÇA BARBOSA"
     ],
     "elaborador": [
         "ROMULO DAVI",
@@ -31,7 +43,8 @@
         "LUCAS ROSA",
         "PAULO SÉRGIO",
         "ROBERTO SALGADO",
-        "MIKE PEREIRA"
+        "MIKE PEREIRA",
+        "ROMULO LOPES"
     ],
     "estagiario": [
         "LEONARDO KAUA"
@@ -46,6 +59,7 @@
         "LUCAS ROSA",
         "PAULO SÉRGIO",
         "ROBERTO SALGADO",
-        "MIKE PEREIRA"
+        "MIKE PEREIRA",
+        "ROMULO LOPES"
     ]
 }

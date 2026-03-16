@@ -502,3 +502,241 @@ Please see the exception for more details.
 [10:25:31] INFO: ✅ Concluído: Output\wdwdwwddwdwdwdw.xlsx
 [09:59:48] INFO: >>> ENGINE V32: ESTRUTURA REFATORADA <<<
 [09:59:49] INFO: ✅ Concluído: Output\55555555555555555.xlsx
+[11:54:11] INFO: >>> ENGINE V32: ESTRUTURA REFATORADA <<<
+[11:54:12] INFO: ✅ Concluído: Output\DEMOLIÇÃO DE LAJE DA SALA EMUF.xlsx
+[12:01:09] INFO: >>> ENGINE V32: ESTRUTURA REFATORADA <<<
+[12:01:10] INFO: ✅ Concluído: Output\DEMOLIÇÃO DE LAJE DA SALA EMUFPA.xlsx
+[09:17:46] INFO: >>> ENGINE V33: BLINDAGEM TOTAL <<<
+[09:17:47] INFO: ✅ Concluído: Output\aaaaaaaaaaaaaaaa.xlsx
+[09:17:48] INFO: ✅ Histórico salvo no banco de dados.
+[09:38:15] INFO: Prazo calculado automaticamente para R$ 10,000.00: 30 DIAS
+[09:38:25] INFO: >>> ENGINE V34: CAMPOS EXTENDIDOS <<<
+[09:38:26] INFO: ✅ Concluído: Output\hgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgf.xlsx
+[09:38:26] INFO: ✅ Histórico salvo no banco de dados.
+[09:38:26] INFO: Prazo calculado automaticamente para R$ 10,000.00: 30 DIAS
+[09:38:29] INFO: Prazo calculado automaticamente para R$ 10,000.00: 30 DIAS
+[09:40:12] INFO: Prazo calculado automaticamente para R$ 10,000.00: 30 DIAS
+[09:53:37] INFO: Prazo calculado automaticamente para R$ 100.00: 30 DIAS
+[09:53:38] INFO: Prazo calculado automaticamente para R$ 100.00: 30 DIAS
+[09:54:02] INFO: >>> ENGINE V34: CAMPOS EXTENDIDOS <<<
+[09:54:02] INFO: ✅ Concluído: Output\cddddddddddddddddd.xlsx
+[09:54:02] INFO: ✅ Histórico salvo no banco de dados.
+[10:10:04] INFO: >>> ENGINE V34: CAMPOS EXTENDIDOS <<<
+[10:10:04] INFO: ✅ Concluído: Output\mxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xlsx
+[10:10:04] INFO: ✅ Histórico salvo no banco de dados.
+[10:30:24] INFO: >>> ENGINE V34: CAMPOS EXTENDIDOS <<<
+[10:30:24] INFO: ✅ Concluído: Output\RECUPERAÇÃO DE PILARES METÁLICOS - CAPACIT.xlsx
+[10:30:24] INFO: ✅ Histórico salvo no banco de dados.
+[10:39:03] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[10:39:09] INFO: >>> ENGINE V38: ALTURA DE RODAPÉ PADRONIZADA <<<
+[10:39:10] INFO: ✅ Concluído: Output\Orcamento.xlsx
+[10:39:10] INFO: ✅ Histórico salvo no banco de dados.
+[10:39:10] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[10:39:14] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[10:39:45] INFO: >>> ENGINE V38: ALTURA DE RODAPÉ PADRONIZADA <<<
+[10:39:45] INFO: ✅ Concluído: Output\ssssssssssssss.xlsx
+[10:39:45] INFO: ✅ Histórico salvo no banco de dados.
+[11:28:48] INFO: Importação Inteligente: 8 campos preenchidos automaticamente!
+[09:23:50] INFO: Prazo calculado automaticamente para R$ 111,111,111,111,111,104.00: A DEFINIR (ACORDO)
+[09:23:59] INFO: Prazo calculado automaticamente para R$ 1,000.00: 30 DIAS
+[09:24:08] INFO: Prazo calculado automaticamente para R$ 10,000.00: 30 DIAS
+[09:24:10] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[09:24:15] INFO: >>> ENGINE V43: BLINDAGEM MERGEDCELL TOTAL <<<
+[09:24:16] INFO: ✅ Concluído: Output\eeeeeeeeeeeeeeeeeeeeeeee.xlsx
+[09:24:16] INFO: ✅ Histórico salvo no banco de dados.
+[09:24:16] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[09:24:33] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[09:24:33] INFO: Prazo calculado automaticamente para R$ 100,000.00: 60 DIAS
+[10:14:46] INFO: Estado da última sessão restaurado.
+[10:20:01] INFO: >>> ENGINE V43: BLINDAGEM MERGEDCELL TOTAL <<<
+[10:20:03] INFO: ✅ Concluído: Output\MANUTENÇÃO CORRETIVA DA COBERTURA, CALHAS E CONDUTORES DO ICED.xlsx
+[10:20:03] INFO: ✅ Histórico salvo no banco de dados.
+[11:45:58] INFO: Estado da última sessão restaurado.
+[11:50:04] INFO: >>> ENGINE V43: BLINDAGEM MERGEDCELL TOTAL <<<
+[11:50:04] INFO: ✅ Concluído: Output\MURO PRINCIPAL DA ESCOLA DE PRIMATAS - NTPC.xlsx
+[11:50:04] INFO: ✅ Histórico salvo no banco de dados.
+[09:22:42] INFO: Estado da última sessão restaurado.
+[10:14:10] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[10:14:11] INFO: ✅ Concluído: Output\Orcamento.xlsx
+[10:14:11] INFO: Iniciando conversão para PDF...
+[10:14:39] ERROR: Erro no PDF: Erro na conversão PDF: (-2146827864, 'OLE error 0x800a01a8', None, None)
+[10:14:39] INFO: ✅ Histórico salvo no banco de dados.
+[10:20:11] INFO: Estado da última sessão restaurado.
+[10:21:47] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[10:21:47] INFO: ✅ Concluído: Output\ffffffffffd.xlsx
+[10:21:47] INFO: Iniciando conversão para PDF...
+[10:21:56] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\ffffffffffd.pdf
+[10:21:56] INFO: ✅ Histórico salvo no banco de dados.
+[10:25:06] INFO: 📂 Arquivo carregado via Drag & Drop: DADOS_LIMPOS.XLSX
+[10:25:10] INFO: 📂 Arquivo carregado via Drag & Drop: DADOS_LIMPOS.XLSX
+[10:25:24] INFO: 📂 Arquivo carregado via Drag & Drop: DADOS_LIMPOS.XLSX
+[10:26:01] INFO: 📂 Arquivo carregado via Drag & Drop: MANUTENÇÃO CORRETIVA DA COBER - ORÇAMENTO SINTÉTICO.XLSX
+[10:26:03] INFO: 📂 Arquivo carregado via Drag & Drop: MURO PRINCIPAL DA ESCOLA DE PR - ORÇAMENTO SINTÉTICO.XLSX
+[10:37:04] INFO: Estado da última sessão restaurado.
+[10:48:56] INFO: Estado da última sessão restaurado.
+[10:49:20] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[10:49:55] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[10:49:57] INFO: ✅ Concluído: Output\MANUTENÇÃO CORRETIVA DA COBERTURA, CALHAS E CONDUTORES DO ICED - PRUMO - Nº 142025.xlsx
+[10:49:58] INFO: ✅ Histórico salvo no banco de dados.
+[10:58:29] INFO: Estado da última sessão restaurado.
+[10:59:00] INFO: Estado da última sessão restaurado.
+[11:00:09] INFO: Modelo definido: MODELO PRUMO.xlsx
+[11:03:35] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:05:13] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[11:05:14] INFO: ✅ Concluído: Output\MANUTENÇÃO CORRETIVA DA COBERTURA, CALHAS E CONDUTORES DO ICED - PRUMO - Nº 142025.xlsx
+[11:05:14] INFO: ✅ Histórico salvo no banco de dados.
+[08:54:15] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:54:16] INFO: Estado da última sessão restaurado.
+[08:54:26] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:59:34] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[08:59:34] INFO: ✅ Concluído: Output\INSTALAÇÃO DE PAREDES COM DIVISÓRIAS ACÚSTICAS.xlsx
+[08:59:34] INFO: Iniciando conversão para PDF...
+[08:59:40] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\INSTALAÇÃO DE PAREDES COM DIVISÓRIAS ACÚSTICAS.pdf
+[08:59:40] INFO: ✅ Histórico salvo no banco de dados.
+[09:04:28] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:04:28] INFO: Estado da última sessão restaurado.
+[09:06:17] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:06:17] INFO: Estado da última sessão restaurado.
+[09:09:36] INFO: Importação Inteligente V2: 9 campos extraídos e normalizados!
+[09:12:31] INFO: Importação Inteligente V2: 9 campos extraídos e normalizados!
+[09:13:34] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[09:14:12] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:14:12] INFO: Estado da última sessão restaurado.
+[09:39:51] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:39:52] INFO: Estado da última sessão restaurado.
+[09:40:48] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[09:41:33] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:41:34] INFO: ✅ Concluído: Output\INSTALAÇÃO DE PAREDES COM DIVISÓRIAS ACÚ.xlsx
+[09:41:34] INFO: Iniciando conversão para PDF...
+[09:41:57] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\INSTALAÇÃO DE PAREDES COM DIVISÓRIAS ACÚ.pdf
+[09:41:57] INFO: ✅ Histórico salvo no banco de dados.
+[09:43:45] INFO: Prazo calculado automaticamente para R$ 1,000.00: 30 DIAS
+[09:43:45] INFO: Prazo calculado automaticamente para R$ 1,000.00: 30 DIAS
+[09:43:45] INFO: Prazo calculado automaticamente para R$ 1,000.00: 30 DIAS
+[09:44:53] INFO: Prazo calculado automaticamente para R$ 1,000.00: 30 DIAS
+[08:56:14] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:56:14] INFO: Estado da última sessão restaurado.
+[08:58:57] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[08:58:58] INFO: ✅ Concluído: Output\Orcamento.xlsx
+[08:58:58] INFO: ✅ Histórico salvo no banco de dados.
+[09:18:57] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:18:58] INFO: Estado da última sessão restaurado.
+[09:20:24] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:20:24] INFO: Estado da última sessão restaurado.
+[09:35:49] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:35:49] INFO: Estado da última sessão restaurado.
+[09:36:20] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:36:21] INFO: ✅ Concluído: Output\Orcamento.xlsx
+[09:36:21] INFO: ✅ Histórico salvo no banco de dados.
+[11:14:32] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:14:33] INFO: Estado da última sessão restaurado.
+[11:14:51] INFO: Importação Inteligente V2: 9 campos extraídos e normalizados!
+[11:15:29] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[11:22:16] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[11:25:05] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[11:25:06] INFO: ✅ Concluído: Output\SERVIÇO DE TRATAMENTO DAS INFILTRAÇÕES D.xlsx
+[11:25:06] INFO: ✅ Histórico salvo no banco de dados.
+[11:40:38] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:40:39] INFO: Estado da última sessão restaurado.
+[11:46:13] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:46:13] INFO: Estado da última sessão restaurado.
+[11:52:16] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:52:16] INFO: Estado da última sessão restaurado.
+[11:57:22] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:57:22] INFO: Estado da última sessão restaurado.
+[11:58:02] INFO: Importação Inteligente V2: 7 campos extraídos e normalizados!
+[11:58:37] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[08:00:59] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:00:59] INFO: Estado da última sessão restaurado.
+[08:03:33] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:03:33] INFO: Estado da última sessão restaurado.
+[08:13:37] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:13:37] INFO: Estado da última sessão restaurado.
+[09:00:37] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:00:37] INFO: Estado da última sessão restaurado.
+[08:37:36] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:37:36] INFO: Estado da última sessão restaurado.
+[08:39:40] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:39:40] INFO: Estado da última sessão restaurado.
+[08:56:40] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[08:56:40] INFO: Estado da última sessão restaurado.
+[08:56:49] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[09:27:21] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[09:33:12] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:33:12] INFO: Estado da última sessão restaurado.
+[09:33:29] INFO: Modelo definido: MODELO SUP(2025)
+[09:33:35] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[09:33:43] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[09:42:40] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:42:40] INFO: Estado da última sessão restaurado.
+[09:42:47] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[10:12:02] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[10:12:02] INFO: Estado da última sessão restaurado.
+[10:12:13] INFO: 📂 Arquivo selecionado manualmente: REVISÃO NO  TELHADO DOS BLOCOS - Orçamento Sintético (1).xlsx
+[10:14:46] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[10:14:47] INFO: ✅ Concluído: Output\REVISÃO NO TELHADO DOS BLOCOS G, H, I, K, M PERTENCENTES AO ICSA.xlsx
+[10:14:47] INFO: Iniciando conversão para PDF...
+[10:14:52] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\REVISÃO NO TELHADO DOS BLOCOS G, H, I, K, M PERTENCENTES AO ICSA.pdf
+[10:14:52] INFO: ✅ Histórico salvo no banco de dados.
+[10:15:55] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[10:15:55] WARNING: Arquivo 'REVISÃO NO TELHADO DOS BLOCOS G, H, I, K, M PERTENCENTES AO ICSA.xlsx' está aberto. Tentando v1...
+[10:15:56] INFO: ✅ Concluído: Output\REVISÃO NO TELHADO DOS BLOCOS G, H, I, K, M PERTENCENTES AO ICSA_v1.xlsx
+[10:15:56] INFO: Iniciando conversão para PDF...
+[10:15:58] ERROR: Erro no PDF: Erro na conversão PDF: (-2147023441, 'O arquivo de paginação é muito pequeno para que esta operação seja concluída.', None, None)
+[10:15:58] INFO: ✅ Histórico salvo no banco de dados.
+[10:17:20] INFO: 📂 Arquivo selecionado manualmente: MANUTENÇÃO DE BANHEIROS DOS SE - Orçamento Sintético.xlsx
+[10:22:37] INFO: 📂 Arquivo selecionado manualmente: SERVIÇO DE TRATAMENTO DAS INF - Orçamento Sintético.xlsx
+[10:25:06] INFO: 📂 Arquivo selecionado manualmente: REVISÃO NO  TELHADO DOS BLOCOS - Orçamento Sintético (1) (1).xlsx
+[10:25:22] INFO: 📂 Arquivo selecionado manualmente: MANUTENÇÃO DE BANHEIROS DOS SE - Orçamento Sintético.xlsx
+[10:32:36] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[10:32:36] INFO: Estado da última sessão restaurado.
+[11:42:49] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:42:49] INFO: Estado da última sessão restaurado.
+[11:43:55] INFO: 📂 Arquivo selecionado manualmente: PORTAS PÓS GRADUAÇÃO EM QUÍMIC - Orçamento Sintético.xlsx
+[11:43:57] INFO: 🛑 Fim do orçamento detetado pelo radar na linha 28.
+[11:45:04] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[11:45:05] INFO: ✅ Concluído: Output\PORTAS PÓS GRADUAÇÃO EM QUÍMICA MEDICINAL E MODELAGEM MOLECULAR - FACULDADE DE FARMÁCIA.xlsx
+[11:45:05] INFO: Iniciando conversão para PDF...
+[11:45:10] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\PORTAS PÓS GRADUAÇÃO EM QUÍMICA MEDICINAL E MODELAGEM MOLECULAR - FACULDADE DE FARMÁCIA.pdf
+[11:45:10] INFO: ✅ Histórico salvo no banco de dados.
+[11:48:10] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[12:13:34] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[12:13:34] INFO: Estado da última sessão restaurado.
+[12:19:52] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[12:22:05] INFO: 📂 Arquivo selecionado manualmente: REVISÃO COBERTURA ICSA PRÉDIO ADM.xlsx
+[12:22:24] INFO: 📂 Arquivo selecionado manualmente: REVISÃO COBERTURA ICSA PRÉDIO ADM.xlsx
+[12:23:00] INFO: 📂 Arquivo selecionado manualmente: REVISÃO COBERTURA ICSA PRÉDIO ADM.xlsx
+[09:38:29] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:38:29] INFO: Estado da última sessão restaurado.
+[09:39:52] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:39:54] INFO: Modelo definido: MODELO SUP(2025)
+[09:40:11] INFO: 📂 Arquivo selecionado manualmente: CTIC - TROCA DE TELHADO PARA U - Orçamento Sintético.xlsx
+[09:41:15] INFO: 📂 Arquivo selecionado manualmente: CTIC - TROCA DE TELHADO DE FIB - Orçamento Sintético.xlsx
+[09:41:18] INFO: 🛑 Fim do orçamento detetado pelo radar na linha 28.
+[09:41:34] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:41:34] INFO: ✅ Concluído: Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.xlsx
+[09:41:34] INFO: Iniciando conversão para PDF...
+[09:41:41] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.pdf
+[09:41:41] INFO: ✅ Histórico salvo no banco de dados.
+[09:42:42] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:42:42] INFO: ✅ Concluído: Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.xlsx
+[09:42:42] INFO: Iniciando conversão para PDF...
+[09:42:46] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.pdf
+[09:42:46] INFO: ✅ Histórico salvo no banco de dados.
+[09:44:02] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:44:03] INFO: ✅ Concluído: Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.xlsx
+[09:44:03] INFO: Iniciando conversão para PDF...
+[09:44:07] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\CTIC - TROCA DE TELHADO DE FIBROCIMENTO E FORRO.pdf
+[09:44:07] INFO: ✅ Histórico salvo no banco de dados.
+[09:47:17] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:47:18] INFO: ✅ Concluído: Output\CTIC - TROCA DE TELHADO PARA UM TERMOACUSTICO E TROCA DE FORRO.xlsx
+[09:47:18] INFO: Iniciando conversão para PDF...
+[09:47:33] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\CTIC - TROCA DE TELHADO PARA UM TERMOACUSTICO E TROCA DE FORRO.pdf
+[09:47:33] INFO: ✅ Histórico salvo no banco de dados.
+[09:48:51] INFO: 📂 Arquivo selecionado manualmente: CTIC - TROCA DE TELHADO PARA U - Orçamento Sintético.xlsx
+[09:48:53] INFO: 🛑 Fim do orçamento detetado pelo radar na linha 28.
+[09:48:56] INFO: >>> ENGINE V45: RETRY + PDF READY <<<
+[09:48:56] INFO: ✅ Concluído: Output\CTIC - TROCA DE TELHADO PARA UM TERMOACUSTICO E TROCA DE FORRO.xlsx
+[09:48:56] INFO: Iniciando conversão para PDF...
+[09:49:00] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Autoformata\Output\CTIC - TROCA DE TELHADO PARA UM TERMOACUSTICO E TROCA DE FORRO.pdf
+[09:49:00] INFO: ✅ Histórico salvo no banco de dados.
