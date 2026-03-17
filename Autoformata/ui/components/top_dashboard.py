@@ -15,8 +15,8 @@ class TopDashboard(ctk.CTkFrame):
         f_sint_inner = ctk.CTkFrame(f_sint, fg_color="transparent")
         f_sint_inner.pack(fill="x", pady=5)
         ctk.CTkButton(f_sint_inner, text="📂 Selecionar", width=100, command=self.main_window.sel_sintetico).pack(side="left", padx=(0, 10))
-        self.main_window.lbl_sint = ctk.CTkLabel(f_sint_inner, text="Nenhum arquivo", text_color="gray")
-        self.main_window.lbl_sint.pack(side="left")
+        self.lbl_sint = ctk.CTkLabel(f_sint_inner, text="Nenhum arquivo", text_color="gray")
+        self.lbl_sint.pack(side="left")
 
         ctk.CTkButton(f_sint, text="🔄 Carregar Tabela Visual", command=self.main_window.carregar_preview, fg_color="#E67E22").pack(anchor="w", pady=5)
 
@@ -26,10 +26,14 @@ class TopDashboard(ctk.CTkFrame):
 
         f_wpp_inner = ctk.CTkFrame(f_wpp, fg_color="transparent")
         f_wpp_inner.pack(fill="x", pady=5)
-        self.main_window.txt_import = ctk.CTkTextbox(f_wpp_inner, height=55)
-        self.main_window.txt_import.pack(side="left", fill="x", expand=True, padx=(0, 10))
+        self.txt_import = ctk.CTkTextbox(f_wpp_inner, height=55)
+        self.txt_import.pack(side="left", fill="x", expand=True, padx=(0, 10))
         ctk.CTkButton(f_wpp_inner, text="🪄 Extrair", command=self.main_window.extrair_dados_texto, fg_color="#8E44AD", width=80, height=55).pack(side="right")
 
-        self.main_window.switch_tema = ctk.CTkSwitch(self, text="Modo Escuro", command=self.main_window._alternar_tema)
-        self.main_window.switch_tema.select()
-        self.main_window.switch_tema.place(relx=0.98, rely=0.1, anchor="ne")
+        self.switch_tema = ctk.CTkSwitch(self, text="Modo Escuro", command=self.main_window._alternar_tema)
+        self.switch_tema.select()
+        self.switch_tema.place(relx=0.98, rely=0.1, anchor="ne")
+
+    def limpar_campos(self):
+        self.lbl_sint.configure(text="Nenhum arquivo", text_color="gray")
+        self.txt_import.delete("0.0", "end")

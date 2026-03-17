@@ -72,6 +72,33 @@ class ExcelPreview(ctk.CTkFrame):
         for item in self.tree.get_children():
             self.tree.delete(item)
 
+    @staticmethod
+    def _parse_numeric(val):
+        if val is None or val == "" or val == "nan":
+            return None
+        if isinstance(val, (int, float)):
+            return float(val)
+
+        s = str(val).strip().replace('R$', '').strip()
+        if ',' in s and '.' in s:
+            s = s.replace('.', '').replace(',', '.')
+        elif ',' in s:
+            s = s.replace(',', '.')
+
+        try:
+            return float(s)
+        except ValueError:
+            return None
+
+    @staticmethod
+    def _format_pt_br(val, is_currency=False):
+        if val is None:
+            return ""
+        s = f"{val:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+        if is_currency:
+            return f"R$ {s}"
+        return s
+
     def popular_dados(self, dados_linhas):
         self.clear()
 
@@ -82,25 +109,28 @@ class ExcelPreview(ctk.CTkFrame):
 
             raw = data["raw_data"]
 
-            # Simple simulation values
             item = raw.get("ITEM_SIM", "")
             cod = raw.get("COD_SIM", "")
             banco = raw.get("BANCO_SIM", "")
             desc = raw.get("DESC_SIM", "")
             unid = raw.get("UNID_SIM", "") if nivel == "ITEM" else ""
-            quant = raw.get("QUANT_SIM", "") if nivel == "ITEM" else ""
-            unit = raw.get("UNIT_SIM", "") if nivel == "ITEM" else ""
-            total = ""
 
-            if nivel == "ITEM" and quant and unit:
-                try:
-                    q = float(str(quant).replace(',','.'))
-                    u = float(str(unit).replace('R$','').replace('.','').replace(',','.').strip())
-                    t = q * u
-                    total = f"R$ {t:,.2f}".replace(',','_').replace('.',',').replace('_','.')
-                    unit = f"R$ {u:,.2f}".replace(',','_').replace('.',',').replace('_','.')
-                    quant = f"{q:,.2f}".replace(',','_').replace('.',',').replace('_','.')
-                except:
-                    pass
+            quant_raw = raw.get("QUANT_SIM", "") if nivel == "ITEM" else ""
+            unit_raw = raw.get("UNIT_SIM", "") if nivel == "ITEM" else ""
 
-            self.tree.insert("", "end", values=(item, cod, banco, desc, unid, quant, unit, total), tags=(nivel,))
+            quant_str = ""
+            unit_str = ""
+            total_str = ""
+
+            if nivel == "ITEM":
+                q = self._parse_numeric(quant_raw)
+                u = self._parse_numeric(unit_raw)
+
+                if q is not None:
+                    quant_str = self._format_pt_br(q, is_currency=False)
+                if u is not None:
+                    unit_str = self._format_pt_br(u, is_currency=True)
+                if q is not None and u is not None:
+                    total_str = self._format_pt_br(q * u, is_currency=True)
+
+            self.tree.insert("", "end", values=(item, cod, banco, desc, unid, quant_str, unit_str, total_str), tags=(nivel,))

@@ -326,9 +326,6 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.drop_target_register(DND_FILES)
         self.dnd_bind('<<Drop>>', self._on_drop)
 
-        self.combos_db_refs = {}
-        self.inputs_refs = {}
-
         self.controller = MainController(self)
 
         self._setup_ui()
@@ -351,7 +348,7 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                 "Arquivo Inválido", "Apenas arquivos Excel são aceitos!")
             return
 
-        self.lbl_sint.configure(text=os.path.basename(path), text_color="lime")
+        self.top_dashboard.lbl_sint.configure(text=os.path.basename(path), text_color="lime")
         self.controller.logger.info(
             f"📂 Arquivo carregado via Drag & Drop: {os.path.basename(path)}")
         self._iniciar_leitura_segura(path)
@@ -471,14 +468,14 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
     def _atualizar_combo_modelos(self):
         nomes = self.controller.template_manager.get_template_names()
         if nomes:
-            self.combo_modelos.configure(values=nomes)
-            atual = self.combo_modelos.get()
+            self.config_panel.combo_modelos.configure(values=nomes)
+            atual = self.config_panel.combo_modelos.get()
             if atual not in nomes:
-                self.combo_modelos.set(nomes[0])
+                self.config_panel.combo_modelos.set(nomes[0])
                 self._ao_trocar_modelo(nomes[0])
         else:
-            self.combo_modelos.configure(values=["(Nenhum modelo)"])
-            self.combo_modelos.set("(Nenhum modelo)")
+            self.config_panel.combo_modelos.configure(values=["(Nenhum modelo)"])
+            self.config_panel.combo_modelos.set("(Nenhum modelo)")
 
     def _ao_trocar_modelo(self, nome):
         path = self.controller.template_manager.get_template_path(nome)
@@ -494,7 +491,8 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
 
     def _salvar_sessao_atual(self):
         data = {}
-        for key, widget in self.inputs_refs.items():
+        all_refs = {**self.side_panel.inputs_refs, **self.config_panel.inputs_refs}
+        for key, widget in all_refs.items():
             try:
                 data[key] = widget.get()
             except:
@@ -505,9 +503,10 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         data = self.controller.carregar_ultima_sessao()
         if not data:
             return
+        all_refs = {**self.side_panel.inputs_refs, **self.config_panel.inputs_refs}
         for key, valor in data.items():
-            if key in self.inputs_refs and valor:
-                widget = self.inputs_refs[key]
+            if key in all_refs and valor:
+                widget = all_refs[key]
                 if isinstance(widget, ctk.CTkEntry):
                     widget.delete(0, 'end')
                     widget.insert(0, valor)
@@ -516,19 +515,19 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.controller.logger.info("Estado da última sessão restaurado.")
 
     def extrair_dados_texto(self):
-        texto = self.txt_import.get("0.0", "end").strip()
+        texto = self.top_dashboard.txt_import.get("0.0", "end").strip()
         if not texto:
             return messagebox.showwarning("Vazio", "Cole o texto do WhatsApp primeiro!")
 
         dados = self.controller.extrair_dados_texto(texto)
 
         mapa = {
-            "campus": self.cbo_campus, "setor": self.cbo_setor,
-            "descricao_header": self.ent_desc_cabecalho, "servidor": self.cbo_servidor,
-            "fiscal": self.cbo_fiscal, "elaborador": self.cbo_elab,
-            "estagiario": self.cbo_estag, "processo": self.ent_processo,
-            "orcafascio": self.ent_orcafascio, "empenho": self.ent_empenho,
-            "num_orcamento": self.ent_num_orc
+            "campus": self.side_panel.cbo_campus, "setor": self.side_panel.cbo_setor,
+            "descricao_header": self.side_panel.ent_desc_cabecalho, "servidor": self.side_panel.cbo_servidor,
+            "fiscal": self.side_panel.cbo_fiscal, "elaborador": self.side_panel.cbo_elab,
+            "estagiario": self.side_panel.cbo_estag, "processo": self.side_panel.ent_processo,
+            "orcafascio": self.side_panel.ent_orcafascio, "empenho": self.side_panel.ent_empenho,
+            "num_orcamento": self.side_panel.ent_num_orc
         }
 
         count = 0
@@ -542,19 +541,19 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                     widget.set(valor)
                 count += 1
 
-        if "descricao_header" in dados and not self.ent_nome_arquivo.get():
+        if "descricao_header" in dados and not self.side_panel.ent_nome_arquivo.get():
             nome_seguro = "".join(
                 x for x in dados["descricao_header"][:40] if x.isalnum() or x in " -_")
-            self.ent_nome_arquivo.insert(0, nome_seguro)
+            self.side_panel.ent_nome_arquivo.insert(0, nome_seguro)
 
-        self.txt_import.delete("0.0", "end")
+        self.top_dashboard.txt_import.delete("0.0", "end")
         self.controller.logger.info(
             f"Importação Inteligente V2: {count} campos extraídos e normalizados!")
         messagebox.showinfo("Sucesso", f"{count} dados foram extraídos!")
 
     def _calcular_prazo_auto(self, event=None):
         try:
-            val_txt = self.ent_valor_sim.get().replace(
+            val_txt = self.side_panel.ent_valor_sim.get().replace(
                 'R$', '').replace('.', '').replace(',', '.').strip()
             if not val_txt:
                 return
@@ -568,15 +567,15 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                 prazo = "90 DIAS"
             else:
                 prazo = "A DEFINIR (ACORDO)"
-            self.ent_prazo.delete(0, 'end')
-            self.ent_prazo.insert(0, prazo)
+            self.side_panel.ent_prazo.delete(0, 'end')
+            self.side_panel.ent_prazo.insert(0, prazo)
             self.controller.logger.info(
                 f"Prazo calculado automaticamente para R$ {valor:,.2f}: {prazo}")
         except:
             pass
 
     def atualizar_listas_visuais(self):
-        for db_key, widget in self.combos_db_refs.items():
+        for db_key, widget in self.side_panel.combos_db_refs.items():
             lista = self.controller.autocomplete.get_list(db_key)
             if lista:
                 widget.configure(values=lista)
@@ -591,24 +590,19 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         p = filedialog.askopenfilename(
             filetypes=[("Excel", "*.xlsx *.xls *.xlsm")])
         if p:
-            self.lbl_sint.configure(text=Path(p).name, text_color="lime")
+            self.top_dashboard.lbl_sint.configure(text=Path(p).name, text_color="lime")
             self.controller.logger.info(
                 f"📂 Arquivo selecionado manualmente: {os.path.basename(p)}")
             self._iniciar_leitura_segura(p)
 
     def limpar_dados_sessao(self):
-        for key, widget in self.inputs_refs.items():
-            if isinstance(widget, ctk.CTkEntry):
-                widget.delete(0, 'end')
-            elif isinstance(widget, ctk.CTkComboBox):
-                widget.set("")
+        self.side_panel.limpar_campos()
+        self.config_panel.limpar_campos()
+        self.top_dashboard.limpar_campos()
 
-        self.lbl_sint.configure(text="Nenhum arquivo", text_color="gray")
-        self.txt_import.delete("0.0", "end")
         self.table_control.clear()
-
-        for k, cb in self.combos_map.items():
-            cb.set("...")
+        if hasattr(self, 'excel_preview'):
+            self.excel_preview.clear()
 
         self.controller.limpar_dados_sessao()
         self.controller.logger.info("🧹 Sessão limpa para novo orçamento.")
@@ -623,7 +617,7 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
                 return
 
             # Map raw data to standardized simulation format based on selected combos
-            m = {k: cb.get() for k, cb in self.combos_map.items()}
+            m = {k: cb.get() for k, cb in self.config_panel.combos_map.items()}
             preview_data = []
 
             for row in self.table_control.rows_data:
@@ -680,9 +674,9 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
 
     def ler_colunas(self):
         try:
-            l = int(self.ent_line.get()) - 1
+            l = int(self.config_panel.ent_line.get()) - 1
             cols, best_matches = self.controller.ler_colunas(l)
-            for k, cb in self.combos_map.items():
+            for k, cb in self.config_panel.combos_map.items():
                 cb.configure(values=cols)
                 if k in best_matches:
                     cb.set(best_matches[k])
@@ -700,13 +694,13 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.progress.start()
 
         self.ler_colunas()
-        l = int(self.ent_line.get()) - 1
+        l = int(self.config_panel.ent_line.get()) - 1
 
-        c_i = self.combos_map["ITEM"].get()
-        c_d = self.combos_map["DESCRICAO"].get()
-        c_c = self.combos_map["CODIGO"].get()
-        c_b = self.combos_map["BANCO"].get()
-        c_u = self.combos_map["UNIT"].get()
+        c_i = self.config_panel.combos_map["ITEM"].get()
+        c_d = self.config_panel.combos_map["DESCRICAO"].get()
+        c_c = self.config_panel.combos_map["CODIGO"].get()
+        c_b = self.config_panel.combos_map["BANCO"].get()
+        c_u = self.config_panel.combos_map["UNIT"].get()
 
         self.table_control.clear()
 
@@ -744,8 +738,8 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         prof = self.controller.dados_config["perfis"].get(
             "PADRAO", {}).get("input", {})
         for k, v in prof.items():
-            if k in self.combos_map:
-                self.combos_map[k].set(v)
+            if k in self.config_panel.combos_map:
+                self.config_panel.combos_map[k].set(v)
 
     def _obter_valor_seguro(self, entry_widget, is_date=False, custom_placeholder=None):
         valor = entry_widget.get().strip().upper()
@@ -761,13 +755,13 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         d = self.table_control.get_final_data()
         if not d:
             return messagebox.showwarning("Vazio", "Tabela vazia")
-        m = {k: cb.get() for k, cb in self.combos_map.items()}
-        bdi_str = self.combo_bdi.get().split('%')[0].replace(',', '.')
+        m = {k: cb.get() for k, cb in self.config_panel.combos_map.items()}
+        bdi_str = self.config_panel.combo_bdi.get().split('%')[0].replace(',', '.')
         try:
             bdi = float(bdi_str) / 100
         except:
             bdi = 0.0
-        metodo = self.combo_metodo_calc.get()
+        metodo = self.config_panel.combo_metodo_calc.get()
         if "Cortar" in metodo:
             calc_mode = "TRUNC"
         elif "Arredondar" in metodo:
@@ -775,31 +769,31 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         else:
             calc_mode = "EXACT"
         try:
-            altura = float(self.ent_altura.get().replace(',', '.'))
+            altura = float(self.config_panel.ent_altura.get().replace(',', '.'))
         except:
             altura = 24.75
 
         info = {
-            "nome_arquivo": self.ent_nome_arquivo.get() or "Orcamento",
-            "descricao_header": self.ent_desc_cabecalho.get().upper(),
-            "campus": self.cbo_campus.get().upper(),
-            "setor": self.cbo_setor.get().upper(),
-            "servidor": self.cbo_servidor.get().upper(),
-            "elaborador": self.cbo_elab.get().upper(),
-            "estagiario": self.cbo_estag.get().upper(),
-            "fiscal": self.cbo_fiscal.get().upper(),
-            "data": self._obter_valor_seguro(self.ent_data, is_date=True),
-            "orcafascio": self._obter_valor_seguro(self.ent_orcafascio),
-            "processo": self._obter_valor_seguro(self.ent_processo),
-            "num_orcamento": self._obter_valor_seguro(self.ent_num_orc, custom_placeholder="XX"),
-            "empenho": self._obter_valor_seguro(self.ent_empenho),
-            "data_emissao": self._obter_valor_seguro(self.ent_data_emissao, is_date=True),
-            "data_inicio": self._obter_valor_seguro(self.ent_data_inicio, is_date=True),
-            "prazo": self._obter_valor_seguro(self.ent_prazo),
+            "nome_arquivo": self.side_panel.ent_nome_arquivo.get() or "Orcamento",
+            "descricao_header": self.side_panel.ent_desc_cabecalho.get().upper(),
+            "campus": self.side_panel.cbo_campus.get().upper(),
+            "setor": self.side_panel.cbo_setor.get().upper(),
+            "servidor": self.side_panel.cbo_servidor.get().upper(),
+            "elaborador": self.side_panel.cbo_elab.get().upper(),
+            "estagiario": self.side_panel.cbo_estag.get().upper(),
+            "fiscal": self.side_panel.cbo_fiscal.get().upper(),
+            "data": self._obter_valor_seguro(self.side_panel.ent_data, is_date=True),
+            "orcafascio": self._obter_valor_seguro(self.side_panel.ent_orcafascio),
+            "processo": self._obter_valor_seguro(self.side_panel.ent_processo),
+            "num_orcamento": self._obter_valor_seguro(self.side_panel.ent_num_orc, custom_placeholder="XX"),
+            "empenho": self._obter_valor_seguro(self.side_panel.ent_empenho),
+            "data_emissao": self._obter_valor_seguro(self.side_panel.ent_data_emissao, is_date=True),
+            "data_inicio": self._obter_valor_seguro(self.side_panel.ent_data_inicio, is_date=True),
+            "prazo": self._obter_valor_seguro(self.side_panel.ent_prazo),
             "bdi": bdi,
             "calc_mode": calc_mode,
             "altura_linha": altura,
-            "gerar_pdf": self.chk_pdf.get()
+            "gerar_pdf": self.config_panel.chk_pdf.get()
         }
 
         for key in ["campus", "setor", "servidor", "elaborador", "estagiario", "fiscal"]:
