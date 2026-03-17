@@ -10,6 +10,7 @@ from controllers.main_controller import MainController
 from ui.components.top_dashboard import TopDashboard
 from ui.components.side_panel import SidePanel
 from ui.components.config_panel import ConfigPanel
+from ui.components.excel_preview import ExcelPreview
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -378,10 +379,27 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.side_panel = SidePanel(self.tab_main, self)
         self.side_panel.grid(row=0, column=0, sticky="nsew", padx=(0, 10), pady=0)
 
-        # --- PAINEL DIREITO (TABELA VISUAL GIGANTE) ---
-        self.table_control = LevelSelector(self.tab_main)
-        self.table_control.grid(row=0, column=1, sticky="nsew", pady=0)
+        # --- PAINEL DIREITO (SUB-ABAS) ---
+        self.right_tabview = ctk.CTkTabview(self.tab_main)
+        self.right_tabview.grid(row=0, column=1, sticky="nsew", padx=(0, 10), pady=0)
+
+        self.tab_niveis = self.right_tabview.add("1. Edição de Níveis")
+        self.tab_preview = self.right_tabview.add("2. Preview Final - Layout Excel")
+
+        self.tab_niveis.grid_columnconfigure(0, weight=1)
+        self.tab_niveis.grid_rowconfigure(0, weight=1)
+        self.tab_preview.grid_columnconfigure(0, weight=1)
+        self.tab_preview.grid_rowconfigure(0, weight=1)
+
+        self.table_control = LevelSelector(self.tab_niveis)
+        self.table_control.grid(row=0, column=0, sticky="nsew", pady=0)
         self.table_control.setup_headers()
+
+        self.excel_preview = ExcelPreview(self.tab_preview)
+        self.excel_preview.grid(row=0, column=0, sticky="nsew", pady=0)
+
+        # Bind event to populate preview when switching tabs
+        self.right_tabview.configure(command=self._on_right_tab_change)
 
         # ABA 2: CONFIGURAÇÕES E MAPEAMENTO
         self.config_panel = ConfigPanel(self.tab_config, self)
@@ -596,6 +614,40 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
         self.controller.logger.info("🧹 Sessão limpa para novo orçamento.")
         self.lbl_status.configure(text="Sessão limpa.", text_color="lime")
 
+    def _on_right_tab_change(self):
+        current_tab = self.right_tabview.get()
+        if current_tab == "2. Preview Final - Layout Excel":
+            dados = self.table_control.get_final_data()
+            if not dados:
+                self.excel_preview.clear()
+                return
+
+            # Map raw data to standardized simulation format based on selected combos
+            m = {k: cb.get() for k, cb in self.combos_map.items()}
+            preview_data = []
+
+            for row in self.table_control.rows_data:
+                nivel = row["nivel"]
+                if nivel == "IGNORAR":
+                    continue
+
+                raw = row["raw_data"]
+                sim_row = {
+                    "nivel": nivel,
+                    "raw_data": {
+                        "ITEM_SIM": raw.get(m["ITEM"], ""),
+                        "COD_SIM": raw.get(m["CODIGO"], ""),
+                        "BANCO_SIM": raw.get(m["BANCO"], ""),
+                        "DESC_SIM": raw.get(m["DESCRICAO"], ""),
+                        "UNID_SIM": raw.get(m["UNID"], ""),
+                        "QUANT_SIM": raw.get(m["QUANT"], ""),
+                        "UNIT_SIM": raw.get(m["UNIT"], "")
+                    }
+                }
+                preview_data.append(sim_row)
+
+            self.excel_preview.popular_dados(preview_data)
+
     def _iniciar_leitura_segura(self, path):
         self.limpar_dados_sessao()
 
@@ -629,20 +681,13 @@ class SisorcApp(ctk.CTk, TkinterDnD.DnDWrapper):
     def ler_colunas(self):
         try:
             l = int(self.ent_line.get()) - 1
-            cols = self.controller.ler_colunas(l)
+            cols, best_matches = self.controller.ler_colunas(l)
             for k, cb in self.combos_map.items():
                 cb.configure(values=cols)
-                for c in cols:
-                    if k in c.upper():
-                        cb.set(c)
-                    if k == "CODIGO" and "COD" in c.upper():
-                        cb.set(c)
-                    if k == "BANCO" and ("FONTE" in c.upper() or "REF" in c.upper()):
-                        cb.set(c)
-                    if k == "DESCRICAO" and "DESC" in c.upper():
-                        cb.set(c)
-                    if k == "UNIT" and "VALOR" in c.upper():
-                        cb.set(c)
+                if k in best_matches:
+                    cb.set(best_matches[k])
+                else:
+                    cb.set("...")
         except:
             pass
 

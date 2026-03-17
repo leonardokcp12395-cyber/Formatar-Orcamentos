@@ -8,6 +8,8 @@ import pandas as pd
 import win32com.client
 import pythoncom
 import queue
+import gc
+from rapidfuzz import process, fuzz
 
 from core.excel_handler import OrcamentoEngine
 from core.database import DatabaseManager
@@ -166,14 +168,42 @@ class MainController:
 
     def ler_colunas(self, line_num):
         if not self.sintetico_limpo_path:
-            return []
+            return [], {}
         try:
-            df = pd.read_excel(self.sintetico_limpo_path,
-                               header=line_num, nrows=5)
-            return [str(c).strip() for c in df.columns if "Unnamed" not in str(c)]
+            df = pd.read_excel(self.sintetico_limpo_path, header=line_num, nrows=5)
+            cols = [str(c).strip() for c in df.columns if "Unnamed" not in str(c)]
+            del df
+            gc.collect()
+
+            # Smart fuzzy matching
+            expected_keys = {
+                "ITEM": ["ITEM", "IT", "NUM"],
+                "CODIGO": ["CODIGO", "COD", "CÓDIGO"],
+                "BANCO": ["BANCO", "FONTE", "REF", "REFERENCIA", "REFERÊNCIA"],
+                "DESCRICAO": ["DESCRICAO", "DESCRIÇÃO", "DESC", "SERVICO", "OBJETO", "DISCRIMINAÇÃO"],
+                "UNID": ["UNID", "UND", "UNIDADE", "U."],
+                "QUANT": ["QUANT", "QTD", "QUANTIDADE"],
+                "UNIT": ["UNIT", "VALOR UNIT", "VALOR UNITÁRIO", "PREÇO", "PRECO UNIT"]
+            }
+
+            best_matches = {}
+            for key, keywords in expected_keys.items():
+                best_match = None
+                best_score = 0
+                for keyword in keywords:
+                    match = process.extractOne(keyword, cols, scorer=fuzz.token_set_ratio)
+                    if match:
+                        col_name, score, _ = match
+                        if score > best_score and score >= 60:
+                            best_score = score
+                            best_match = col_name
+                if best_match:
+                    best_matches[key] = best_match
+
+            return cols, best_matches
         except Exception as e:
-            print(f"Erro ao ler colunas: {e}")
-            return []
+            self.logger.error(f"Erro ao ler colunas: {e}")
+            return [], {}
 
     def carregar_preview(self, line_num, m_item, m_desc, m_cod, m_banco, m_unit):
         if not self.sintetico_limpo_path:
@@ -218,6 +248,9 @@ class MainController:
                     'raw_row_data': row.to_dict(),
                     'unit_val': unit_val
                 })
+
+            del df
+            gc.collect()
 
             self.ui_queue.put(
                 {'action': 'carregar_preview_sucesso', 'dados_linhas': dados_linhas})
