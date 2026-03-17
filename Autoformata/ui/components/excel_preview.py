@@ -8,7 +8,8 @@ class ExcelPreview(ctk.CTkFrame):
         style = ttk.Style(self)
         style.theme_use("default")
 
-        style.configure("ExcelTreeview",
+        # CORREÇÃO: O nome do estilo deve conter ".Treeview" para o Tkinter herdar o layout base
+        style.configure("Excel.Treeview",
                         background="#FFFFFF",
                         foreground="#000000",
                         rowheight=25,
@@ -16,14 +17,15 @@ class ExcelPreview(ctk.CTkFrame):
                         borderwidth=1,
                         relief="solid")
 
-        style.configure("ExcelTreeview.Heading",
+        style.configure("Excel.Treeview.Heading",
                         background="#F3F3F3",
                         foreground="#000000",
                         font=("Arial", 10, "bold"),
                         borderwidth=1,
                         relief="solid")
 
-        self.tree = ttk.Treeview(self, style="ExcelTreeview", show="headings")
+        # CORREÇÃO APLICADA AQUI NO PARÂMETRO STYLE
+        self.tree = ttk.Treeview(self, style="Excel.Treeview", show="headings")
 
         vsb = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
         hsb = ttk.Scrollbar(self, orient="horizontal", command=self.tree.xview)
