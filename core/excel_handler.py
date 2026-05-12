@@ -1,13 +1,8 @@
-import pandas as pd
-import openpyxl
 import os
 import shutil
 import re
 import math
 from copy import copy
-from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
-from openpyxl.cell.cell import MergedCell, Cell
-from openpyxl.utils import range_boundaries, get_column_letter
 from typing import Optional, Dict, List, Tuple, Any, Callable, Union
 
 from utils.logger import Logger
@@ -19,10 +14,10 @@ class OrcamentoEngine:
         if not os.path.exists(self.output_dir): 
             os.makedirs(self.output_dir)
         
-        self.wb_out: Optional[openpyxl.Workbook] = None
-        self.ws_out: Optional[openpyxl.worksheet.worksheet.Worksheet] = None
-        self.wb_src: Optional[openpyxl.Workbook] = None
-        self.ws_src: Optional[openpyxl.worksheet.worksheet.Worksheet] = None
+        self.wb_out: Optional[Any] = None
+        self.ws_out: Optional[Any] = None
+        self.wb_src: Optional[Any] = None
+        self.ws_src: Optional[Any] = None
         
         self.info: Dict[str, Any] = {}
         self.mapa_colunas: Dict[str, str] = {}
@@ -104,6 +99,7 @@ class OrcamentoEngine:
             raise ExcelProcessError(f"Muitos arquivos '{nome_base}' bloqueados! Feche o aplicativo Excel.")
         
         try:
+            import openpyxl
             shutil.copy(modelo_path, save_path)
             self.wb_out = openpyxl.load_workbook(save_path)
             self.ws_out = self.wb_out.active
@@ -201,6 +197,7 @@ class OrcamentoEngine:
         bdi_val = float(self.info.get("bdi", 0.0))
         fator_desconto = 0.19 if abs(bdi_val - 0.2882) < 0.001 else 0.0601
 
+        from openpyxl.styles import Font
         r1, r2, r3, r4, r5 = [target_start_row + i for i in range(5)]
         font_bold = Font(name="Arial", bold=True, size=10)
 
@@ -219,6 +216,7 @@ class OrcamentoEngine:
     def _safe_write(self, row: int, col: int, value: Any, number_format: Optional[str] = None) -> None:
         if not self.ws_out: return
         try:
+            from openpyxl.cell.cell import MergedCell
             cell = self.ws_out.cell(row, col)
             if isinstance(cell, MergedCell):
                 for merged in list(self.ws_out.merged_cells.ranges):
@@ -238,6 +236,8 @@ class OrcamentoEngine:
     def _write_cell(self, coord: str, text: Any, bold: bool = True) -> None:
         if not self.ws_out: return
         try:
+            from openpyxl.cell.cell import MergedCell
+            from openpyxl.styles import Font
             cell = self.ws_out[coord]
             if isinstance(cell, MergedCell):
                 for merged in self.ws_out.merged_cells.ranges:
@@ -255,6 +255,8 @@ class OrcamentoEngine:
 
     def _aplicar_estilo_hierarquico(self, row: int, nivel: str) -> None:
         if not self.ws_out: return
+        from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
+        from openpyxl.cell.cell import MergedCell
         paleta = {
             "N1": {"bg": "9BC2E6", "bold": True, "size": 11},
             "N2": {"bg": "BDD7EE", "bold": True, "size": 11},
@@ -322,6 +324,8 @@ class OrcamentoEngine:
 
     def _copiar_bloco_excel(self, r_ini: int, r_fim: int, r_tgt_ini: int) -> None:
         if not self.ws_out or not self.ws_src: return
+        from openpyxl.cell.cell import MergedCell
+        from openpyxl.utils import range_boundaries, get_column_letter
         offset = r_tgt_ini - r_ini
         for row in range(r_ini, r_fim + 1):
             tgt_row = row + offset
@@ -355,6 +359,8 @@ class OrcamentoEngine:
     def _inserir_formulas_totais(self, mapa: List[Dict[str, Any]]) -> None:
         if not self.ws_out: return
         try:
+            from openpyxl.cell.cell import MergedCell
+            from openpyxl.styles import Font
             total_rows = len(mapa)
             peso = {"N1": 1, "N2": 2, "N3": 3, "ITEM": 4}
             for i, atual in enumerate(mapa):
@@ -381,6 +387,7 @@ class OrcamentoEngine:
         if val is None:
             return None
         try:
+            import pandas as pd
             if pd.isna(val):
                 return None
         except (TypeError, ValueError):

@@ -1,5 +1,4 @@
 import re
-from rapidfuzz import process, fuzz
 
 
 class SmartParser:
@@ -71,6 +70,8 @@ class SmartParser:
         """
         Tenta encontrar o valor mais próximo no banco de dados para corrigir erros de digitação.
         """
+        from rapidfuzz import process, fuzz
+
         mapa_chaves = {
             "campus": "campus",
             "setor": "setor",

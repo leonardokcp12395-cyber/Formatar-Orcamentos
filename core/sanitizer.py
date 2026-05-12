@@ -1,4 +1,3 @@
-import pandas as pd
 import os
 from typing import Tuple, Dict, Any, Optional
 from utils.logger import Logger
@@ -19,6 +18,7 @@ class ExcelSanitizer:
             if not os.path.exists(input_path):
                 raise DataExtractionError("Arquivo Excel não encontrado no disco.")
 
+            import pandas as pd
             # 1. Varredura Inteligente
             # Lê as primeiras 50 linhas sem cabeçalho para tentar encontrar onde a tabela comeca
             df_temp = pd.read_excel(input_path, header=None, nrows=50)

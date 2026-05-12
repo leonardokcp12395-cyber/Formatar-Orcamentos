@@ -1,4 +1,3 @@
-import psutil
 from utils.logger import Logger
 
 def clean_zombie_excels(force=False):
@@ -10,6 +9,7 @@ def clean_zombie_excels(force=False):
         return 0 # Só limpamos sob demanda (panic button) para não matar o excel pessoal do user à toa na inicialização.
         
     try:
+        import psutil
         for proc in psutil.process_iter(['pid', 'name']):
             try:
                 name = proc.info.get('name', '').lower()
