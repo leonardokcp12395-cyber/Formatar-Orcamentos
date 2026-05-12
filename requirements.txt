@@ -1,0 +1,30 @@
+# Planify v5.0 - Dependências do Projeto
+# Instalação: pip install -r requirements.txt
+
+# Core Data Processing
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# Interface Gráfica Moderna
+customtkinter>=5.2.0
+pillow>=10.0.0
+
+# Performance Text Matching
+rapidfuzz>=3.0.0
+
+# Estabilidade e Validação (Enterprise)
+psutil>=5.9.0
+pydantic>=2.4.0
+
+# Build (Compilação para .exe)
+pyinstaller>=6.0.0
+
+# Ecossistema de Testes Automatizados (TDD)
+pytest>=7.0.0
+
+# Opcional: Type Checking
+# mypy>=1.0.0
+
+# Opcional: Code Quality
+# pylint>=3.0.0
+# black>=23.0.0
