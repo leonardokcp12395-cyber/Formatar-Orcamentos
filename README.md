@@ -1,10 +1,10 @@
-# Planify v4.0 - Documentação Técnica
+# Planify v4.0 - Documentação Técnica (Desatualizado - já tem coisas novas e ocorreu modificações)
 
 ## 📋 Visão Geral
 
 Sistema profissional de automação de orçamentos de engenharia civil, construído com arquitetura modular MVC, seguindo princípios SOLID e Clean Architecture.
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ Arquitetura do Projeto 
 
 ```
 Planify/
