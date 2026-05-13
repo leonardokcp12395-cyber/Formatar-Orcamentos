@@ -1,15 +1,6 @@
 import os
 import time
 from pathlib import Path
-
-# Tenta importar win32com para comunicação com Excel
-try:
-    import win32com.client
-    import pythoncom # Necessário para rodar em threads
-    HAS_WIN32 = True
-except ImportError:
-    HAS_WIN32 = False
-
 class PDFExporter:
     @staticmethod
     def converter_para_pdf(caminho_excel):
@@ -17,9 +8,11 @@ class PDFExporter:
         Converte um arquivo Excel (.xlsx) para PDF usando a API nativa do Windows.
         Retorna: (Sucesso: bool, CaminhoPDF: str, Mensagem: str)
         """
-        if not HAS_WIN32:
+        try:
+            import win32com.client
+            import pythoncom # Necessário para rodar em threads
+        except ImportError:
             return False, "", "Biblioteca pywin32 não instalada ou erro de importação."
-
         # Garante caminhos absolutos e normalizados para o Windows
         try:
             path_obj = Path(caminho_excel).resolve()

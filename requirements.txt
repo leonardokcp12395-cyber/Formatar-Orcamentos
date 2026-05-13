@@ -5,10 +5,6 @@
 pandas>=2.0.0
 openpyxl>=3.1.0
 
-# Interface Gráfica Moderna
-customtkinter>=5.2.0
-pillow>=10.0.0
-
 # Performance Text Matching
 rapidfuzz>=3.0.0
 
@@ -16,8 +12,10 @@ rapidfuzz>=3.0.0
 psutil>=5.9.0
 pydantic>=2.4.0
 
-# Build (Compilação para .exe)
-pyinstaller>=6.0.0
+# Backend Web / API
+fastapi>=0.100.0
+uvicorn>=0.23.0
+python-multipart>=0.0.6
 
 # Ecossistema de Testes Automatizados (TDD)
 pytest>=7.0.0

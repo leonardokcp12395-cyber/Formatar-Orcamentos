@@ -1,17 +1,21 @@
-import sys
 import os
+import sys
 import shutil
-import tkinter as tk
-from pathlib import Path
 import threading
-
+import webbrowser
+from pathlib import Path
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+import uvicorn
+from contextlib import asynccontextmanager
 
 # Configura estrutura de pastas automaticamente
 def setup_environment():
     root = Path(os.path.dirname(os.path.abspath(__file__)))
 
     # 1. Pastas Obrigatórias
-    folders = ['config', 'core', 'ui', 'utils', 'Output']
+    folders = ['config', 'core', 'ui', 'utils', 'Output', 'static']
     for f in folders:
         (root / f).mkdir(exist_ok=True)
 
@@ -26,101 +30,46 @@ def setup_environment():
     # Garante que o Python encontre tudo
     sys.path.append(str(root))
 
+setup_environment()
 
-def show_splash():
-    """Mostra uma tela de carregamento leve (Tkinter puro) enquanto carrega as libs pesadas"""
-    splash = tk.Tk()
-    splash.overrideredirect(True)  # Remove bordas da janela
+def open_browser():
+    webbrowser.open("http://localhost:8000")
 
-    # Centraliza
-    w, h = 400, 100
-    ws = splash.winfo_screenwidth()
-    hs = splash.winfo_screenheight()
-    x = (ws / 2) - (w / 2)
-    y = (hs / 2) - (h / 2)
-    splash.geometry(f'{w}x{h}+{int(x)}+{int(y)}')
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Executa a abertura do browser após um pequeno delay para garantir que o server está pronto
+    timer = threading.Timer(1.0, open_browser)
+    timer.start()
 
-    # Estilo
-    splash.configure(bg='#2B2B2B')
-    label = tk.Label(splash, text="🚀 Carregando Planify...\nPor favor, aguarde.",
-                     fg='white', bg='#2B2B2B', font=("Arial", 12))
-    label.pack(expand=True)
+    # Roda o caçador de zumbis silenciosamente no início
+    from utils.excel_killer import clean_zombie_excels
+    clean_zombie_excels(force=True)
 
-    # Barra de loading fake
-    canvas = tk.Canvas(splash, height=5, width=400, bg="#444", highlightthickness=0)
-    canvas.pack(side="bottom", fill="x")
-    rect = canvas.create_rectangle(0, 0, 0, 5, fill="#00AA00", width=0)
+    yield
 
-    def animate(width=0):
-        # CORREÇÃO: Verifica se a janela ainda existe antes de tentar animar
-        if not canvas.winfo_exists():
-            return
+    # Limpeza na saída
+    clean_zombie_excels(force=True)
 
-        if width < 400:
-            width += 5
-            canvas.coords(rect, 0, 0, width, 5)
-            splash.after(20, lambda: animate(width))
+app = FastAPI(title="Planify Web-Local", lifespan=lifespan)
 
-    animate()
-    splash.update()
-    return splash
+# Monta arquivos estáticos
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    index_path = Path("static/index.html")
+    if index_path.exists():
+        with open(index_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<h1>Planify - Arquivo index.html não encontrado na pasta static/</h1>"
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    # Mock do retorno para Fase 1
+    return JSONResponse(content={"status": "sucesso", "arquivo": file.filename})
 
 def iniciar():
-    setup_environment()
-
-    # --- INÍCIO TELA HIGH-DPI ---
-    try:
-        import ctypes
-        # Habilita suporte a DPI alto no Windows 10/11 para evitar borrado
-        ctypes.windll.shcore.SetProcessDpiAwareness(1)
-    except Exception:
-        pass
-    # --- FIM TELA HIGH-DPI ---
-
-    # Mostra Splash Screen IMEDIATAMENTE
-    splash = show_splash()
-
-    try:
-        # Importações pesadas acontecem AQUI
-        import customtkinter
-        import pandas
-        import openpyxl
-
-        # Importa a App Principal
-        from ui.main_window import PlanifyApp
-
-        # Destroi splash e abre app real
-        if splash.winfo_exists():
-            splash.destroy()
-
-        # Roda o caçador de zumbis silenciosamente no início
-        from utils.excel_killer import clean_zombie_excels
-        clean_zombie_excels(force=True)
-
-        app = PlanifyApp()
-        app.mainloop()
-
-        # Limpeza na saída
-        clean_zombie_excels(force=True)
-
-    except ImportError as e:
-        # CORREÇÃO: winfo_exists() impede o TclError
-        if 'splash' in locals() and splash.winfo_exists():
-            splash.destroy()
-        print("\n❌ ERRO CRÍTICO: Faltam bibliotecas.")
-        print(f"Detalhe: {e}")
-        print("\nPor favor, execute o comando abaixo no terminal para instalar as dependências necessárias:")
-        print("pip install -r requirements.txt")
-        input("\nENTER para sair...")
-    except Exception as e:
-        if 'splash' in locals() and splash.winfo_exists():
-            splash.destroy()
-        print(f"\n❌ Erro Inesperado: {e}")
-        import traceback
-        traceback.print_exc()
-        input("\nENTER para sair...")
-
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
 
 if __name__ == "__main__":
     iniciar()
