@@ -1,0 +1,39 @@
+[09:52:39] INFO: 📦 Base de dados migrada: sisorc_history.db → planify_history.db
+[09:52:40] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[09:52:40] INFO: Estado da última sessão restaurado.
+[09:52:57] INFO: 📂 Arquivo selecionado manualmente: FACULDADE DE DANÇA - REVITALIZ - Orçamento Sintético.xlsx
+[09:52:57] INFO: 🧹 Sessão limpa para novo orçamento.
+[10:10:51] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[10:10:55] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:56] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:56] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:56] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:56] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:57] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:57] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:57] INFO: Nenhum processo zumbi do Excel encontrado.
+[10:10:58] INFO: Nenhum processo zumbi do Excel encontrado.
+[11:45:58] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[11:46:05] INFO: 📂 Arquivo selecionado manualmente: REFORÇO DE LAJE - Orçamento Sintético.xlsx
+[11:46:05] INFO: 🧹 Sessão limpa para novo orçamento.
+[11:46:11] INFO: 🛑 Fim do orçamento detetado pelo radar na linha 22.
+[11:49:35] INFO: >>> PLANIFY ENGINE V50: TYPED & SAFE <<<
+[11:49:37] INFO: ✅ Concluído: Output\REFORÇO DE LAJE E APLICAÇÃO DE MANTA EM CALHA.xlsx
+[11:49:37] INFO: Iniciando conversão para PDF...
+[11:49:43] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Projetos pessoais\Autoformata\Output\REFORÇO DE LAJE E APLICAÇÃO DE MANTA EM CALHA.pdf
+[11:49:43] INFO: ✅ Histórico salvo no banco de dados.
+[11:51:18] INFO: 🧹 Sessão limpa para novo orçamento.
+[11:51:18] INFO: 🧹 Sessão limpa para novo orçamento.
+[11:53:50] INFO: 📂 Arquivo selecionado manualmente: MANUTENÇÃO PORTA DE ENTRADA DO - Orçamento Sintético.xlsx
+[11:53:50] INFO: 🧹 Sessão limpa para novo orçamento.
+[11:54:12] INFO: 📂 Arquivo selecionado manualmente: MANUTENÇÃO PORTA DE ENTRADA DO - Orçamento Sintético.xlsx
+[11:54:12] INFO: 🧹 Sessão limpa para novo orçamento.
+[11:54:14] INFO: 🛑 Fim do orçamento detetado pelo radar na linha 11.
+[11:54:19] INFO: Importação Inteligente V2: 8 campos extraídos e normalizados!
+[11:55:18] INFO: >>> PLANIFY ENGINE V50: TYPED & SAFE <<<
+[11:55:19] INFO: ✅ Concluído: Output\MANUTENÇÃO PORTA DE ENTRADA DO LAPMAR - IG.xlsx
+[11:55:19] INFO: Iniciando conversão para PDF...
+[11:55:23] INFO: ✅ PDF Gerado: C:\Users\ESTAGIÁRIOS\Desktop\Leonardo kaua\Projetos pessoais\Autoformata\Output\MANUTENÇÃO PORTA DE ENTRADA DO LAPMAR - IG.pdf
+[11:55:23] INFO: ✅ Histórico salvo no banco de dados.
+[10:16:05] INFO: Modelo definido: MODELO PRUMO(2025-26)
+[10:16:05] INFO: Estado da última sessão restaurado.
